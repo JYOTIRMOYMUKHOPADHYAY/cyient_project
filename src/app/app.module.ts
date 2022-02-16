@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ManageConnectionsComponent } from './manage-connections/manage-connections.component';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-// import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,14 +15,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   ],
   imports: [
     BrowserModule,
-    LeafletModule,
     AppRoutingModule,
-    HttpClientModule,
-    // LeafletMarkerClusterModule
-
-  ],
-  exports:[
-    LeafletModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
