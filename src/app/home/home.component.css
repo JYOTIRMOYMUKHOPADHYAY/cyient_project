@@ -1,4 +1,58 @@
-.card-body {
-    flex: 1 1 auto;
-    padding: 3rem 1rem;
-}
+.side-navbar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    margin-left: -300px;
+    margin-top: 60px;
+    background-color: #d9d9d6;
+    transition: 0.5s;
+  }
+  
+  .nav-link:active,
+  .nav-link:focus,
+  .nav-link:hover {
+    background-color: #75787b !important;
+    color: #ffffff !important;
+  }
+  .nav-link{
+color: #000 !important;
+font-weight: 600;
+  }
+  .my-container {
+    transition: 0.4s;
+  }
+  
+  .active-nav {
+    margin-left: 0;
+  }
+  
+  .active-cont {
+    margin-left: 250px;
+  }
+  
+  #menu-btn {
+    background-color: #100901;
+    color: #fff;
+    margin-left: -62px;
+  }
+  
+  .my-container input {
+    border-radius: 2rem;
+    padding: 2px 20px;
+  }
+  .bg-cardmain{
+    background-color: #d7d7d7 !important;
+    color: #000 !important;
+    margin-bottom: 13px;
+    border-radius: 10px;
+    padding: 12px 0px;
+    text-align: center;
+  }
+  .bg-card{
+    background-color: #f2f2f2 !important;
+    color: #000 !important;
+    margin-bottom: 13px;
+    border-radius: 10px;
+    padding: 12px 0px;
+    text-align: center;
+  }
