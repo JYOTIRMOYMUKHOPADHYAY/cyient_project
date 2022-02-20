@@ -52,77 +52,70 @@
       >
         <div class="form-login">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-              <div class="mb-4">
-            <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              formControlName="email"
-              [ngClass]="{'invalid': submitted && f['email'].invalid}"
-            />
-            <div *ngIf="submitted && f['email'].invalid">
-              <p style="color: red;">
-                Please provide a valid Email.
-              </p>
-             </div>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label"
-              >Password</label
-            >
-            <div class="input-group">
+            <div class="mb-4">
+              <label for="exampleInputEmail1" class="form-label">Email</label>
               <input
-                class="form-control border-end-0 border"
-                type="password"
-                id="exampleInputPassword1"
-                formControlName="password"
-                [ngClass]="{'invalid': submitted && f['password'].invalid}"
+                type="email"
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                formControlName="email"
+                [ngClass]="{ invalid: submitted && f['email'].invalid }"
               />
-              <span class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary bg-white border-start-0 border ms-n5"
-                  type="button"
-                >
-                  <i class="fa fa-eye"></i>
-                </button>
-              </span>
-            </div>
-            <div *ngIf="submitted && f['password'].invalid">
-              <p style="color: red;">
-                Password should be 6 charecter long.
-              </p>
-             </div>
-          </div>
-          <div class="mb-3 d-flex justify-content-center">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="exampleCheck1"
-              formControlName="rememberMe"
-            />
-            <label class="form-check-label" for="exampleCheck1">
-              Remember me</label
-            >
-          </div>
-          <div class="container mb-5">
-            <div class="row">
-              <div class="col text-center text-danger">
-                <a href="">
-                  Forgot your password? <br />
-                  Click Here</a
-                >
-              </div>
-              <div class="col d-grid gap-2">
-                <button type="submit" class="btn btn-login">Login</button>
+              <div *ngIf="submitted && f['email'].invalid">
+                <p style="color: red">Please provide a valid Email.</p>
               </div>
             </div>
-          </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label"
+                >Password</label
+              >
+              <div class="input-group">
+                <input
+                  class="form-control border-end-0 border"
+                  type="password"
+                  id="exampleInputPassword1"
+                  formControlName="password"
+                  [ngClass]="{ invalid: submitted && f['password'].invalid }"
+                />
+                <span class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary bg-white border-start-0 border ms-n5"
+                    type="button"
+                  >
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </span>
+              </div>
+              <div *ngIf="submitted && f['password'].invalid">
+                <p style="color: red">Password should be 6 charecter long.</p>
+              </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-center">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="exampleCheck1"
+                formControlName="rememberMe"
+              />
+              <label class="form-check-label" for="exampleCheck1">
+                Remember me</label
+              >
+            </div>
+            <div class="container mb-5">
+              <div class="row">
+                <div class="col text-center text-danger">
+                  <a href="">
+                    Forgot your password? <br />
+                    Click Here</a
+                  >
+                </div>
+                <div class="col d-grid gap-2">
+                  <button type="submit" class="btn btn-login" [routerLink]="['/dashboard']">Login</button>
+                </div>
+              </div>
+            </div>
           </form>
-
-
-
         </div>
       </div>
       <div
