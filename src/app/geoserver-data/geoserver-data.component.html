@@ -1,32 +1,63 @@
 <div class="col-12" style="display: flex; justify-content: end;">
   <div class="col-5">
-<div class="container">
-  <div class="row">
-    <h4>Clusturing</h4>
-    <form>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Clusturing</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      </div>
-      <div class="mb-3">
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Open this select menu</option>
-          <option value="1">Arial</option>
-          <option value="2">Underground</option>
-        </select>
+    <div class="container">
+      <div class="row ">
+        <form class="mb-3" *ngIf="clusteringFormShow">
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Clusturing</h4>
+          <div class="mb-3">
+            <select class="form-select" aria-label="Default select example">
+              <option value="1">Arial</option>
+              <option value="2">Underground</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+            <input class="form-control" type="file" name="file" id="formFileMultiple" multiple (change)="filesDropped2($event)">
+            <input class="form-control mt-3" type="file" id="formFileMultiple" multiple>
+          </div>
+          <button type="submit" class="btn btn-primary mt-4" (click)="submitCLusturing()">Execute</button>
+        </form>
 
+        <!-- <form class="mb-3" *ngIf="clusterGroupingFormShow">
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Cluster Grouping</h4>
+          <div class="mb-3">
+            <div class="card text-white bg-success mb-3" style="width: auto;">
+              <div class="card-body">
+                <h5 class="card-title text-center">Aerial Clusturing op</h5>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Move on to node boundary</button>
+        </form> -->
+
+        <form class="mb-3" *ngIf="nodeBoundaryShow">
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Node Boundary</h4>
+          <div class="mb-3">
+            <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+            <input class="form-control" type="file" id="formFileMultiple" multiple>
+            <input class="form-control mt-3" type="file" id="formFileMultiple" multiple>
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="submitNodeBoundary()">Execute</button>
+        </form>
+
+      <form class="mb-3" *ngIf="clusterCorrectionShow">
+        <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Nb Op</h4>
+        <div class="mb-3">
+          <div class="card text-white bg-success mb-3" style="width: auto;">
+            <div class="card-body">
+              <h5 class="card-title text-center">nBop</h5>
+            </div>
+          </div>
+        </div>
+        <div class="d-grid gap-2 col-8 mx-auto">
+          <button class="btn btn-primary" type="button" (click)="fallbackClusterCorrection()">Move on to Cluster Correction</button>
+          <button class="btn btn-primary" type="button" >Move on to node placement</button>
+        </div>
+      </form>
       </div>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Upload</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-</div>
-  </div>
-    <div class="col-7">
-      <app-geoserver-map></app-geoserver-map>
     </div>
   </div>
-
+  <div class="col-7">
+    <app-geoserver-map></app-geoserver-map>
+  </div>
+</div>

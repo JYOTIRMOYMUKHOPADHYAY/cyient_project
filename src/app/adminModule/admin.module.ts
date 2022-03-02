@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +20,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     GeoserverDataComponent,
     GeoserverMapComponent
   ],
-  imports: [AdminRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule,AdminRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [],
 })
 export class AdminModule {}
