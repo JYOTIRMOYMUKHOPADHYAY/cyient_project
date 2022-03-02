@@ -1,4 +1,7 @@
-.card-body {
-    flex: 1 1 auto;
-    padding: 3rem 1rem;
+.my-container {
+  transition: 0.4s;
+}
+
+.active-cont {
+  margin-left: 250px;
 }
