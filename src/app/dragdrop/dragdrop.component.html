@@ -16,30 +16,51 @@
 
   <div cdkDropList cdkDropListOrientation="horizontal" class="row" cdkDropList="nodes" [cdkDropListData]="nodes"
     (cdkDropListDropped)="drop($event)">
-    <div class="col-3" *ngFor="let node of nodes" cdkDrag>
-      <div class="card" [ngStyle]="node.isCompleted? {'background-color': '#42f55d'}:{'background-color':'white'}">
+    <div class="col-3" *ngFor="let node of nodes" cdkDrag style="display: flex;
+    justify-content: center;
+    align-items: center;">
+      <div class="card" [ngStyle]="node.isCompleted? {'background-color': '#42f55d'}:{'background-color':'white'}"
+        style="display: flex;">
         <div style="height: 125px;display: flex;justify-content: center;align-items: end;" class="text-center">
-          <p>
+          <p style="font-size: 10px;">
             {{node.name}}
           </p>
         </div>
+        <div class="row" style="height: 125px;display: flex;justify-content: end;align-items: end;" class="text-end">
+          <div *ngIf="node.isRunning === true" style="display: flex;margin-right: 5px;">
+            <div style="margin-right: 5px;font-size: 6px;">Running</div>
+            <div class="dotRed"></div>
+          </div>
+          <div *ngIf="node.isCompleted === true" style="display: flex;margin-right: 5px;">
+            <div style="margin-right: 5px;font-size: 6px;">Completed</div>
+            <div class="dotGreen"></div>
+          </div>
 
-        <div class="row" style="height: 125px;display: flex;justify-content: center;align-items: end;"
-          class="text-center">
-          <p *ngIf="node.isRunning === true">
-            Running
-          </p>
-          <p *ngIf="node.isCompleted === true">
-            Completed
-          </p>
         </div>
-      </div>
 
+      </div>
+      <span><img width="100px" src="../../assets/Vector.svg" /></span>
     </div>
   </div>
 </div>
 
 
+<output></output>
+<div id="input-line" class="input-line">
+  <div class="prompt"></div>
+  <div><input class="cmdline" autofocus /></div>
+</div>
+
+<div class="clock-container">
+  <svg viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="45" />
+    <g>
+      <rect class="hour" x="47.5" y="12.5" width="5" height="40" rx="2.5" ry="2.55" />
+      <rect class="min" x="48.5" y="12.5" width="3" height="40" rx="2" ry="2" />
+      <line class="sec" x1="50" y1="50" x2="50" y2="16" />
+    </g>
+  </svg>
+</div>
 <!-- <div cdkDropList [cdkDropListData]="done" (cdkDropListDropped)="drop($event)">
   <div cdkDrag  [cdkDragData]="done">
     {{done.name}}
