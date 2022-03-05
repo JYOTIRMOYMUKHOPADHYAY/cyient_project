@@ -12,7 +12,8 @@
           </div>
           <div class="mb-3">
             <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-            <input class="form-control" type="file" name="file" id="formFileMultiple" multiple (change)="filesDropped2($event)">
+            <input class="form-control" type="file" name="file" id="formFileMultiple" multiple
+              (change)="filesDropped2($event)">
             <input class="form-control mt-3" type="file" id="formFileMultiple" multiple>
           </div>
           <button type="submit" class="btn btn-primary mt-4" (click)="submitCLusturing()">Execute</button>
@@ -40,24 +41,76 @@
           <button type="submit" class="btn btn-primary" (click)="submitNodeBoundary()">Execute</button>
         </form>
 
-      <form class="mb-3" *ngIf="clusterCorrectionShow">
-        <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Nb Op</h4>
-        <div class="mb-3">
-          <div class="card text-white bg-success mb-3" style="width: auto;">
-            <div class="card-body">
-              <h5 class="card-title text-center">nBop</h5>
+        <form class="mb-3" *ngIf="clusterCorrectionShow">
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Nb Op</h4>
+          <div class="mb-3">
+            <div class="card text-white bg-success mb-3" style="width: auto;">
+              <div class="card-body">
+                <h5 class="card-title text-center">nBop</h5>
+              </div>
             </div>
           </div>
+          <div class="d-grid gap-2 col-8 mx-auto">
+            <button class="btn btn-primary" type="button" (click)="fallbackClusterCorrection()">Move on to Cluster
+              Correction</button>
+            <button class="btn btn-primary" type="button">Move on to node placement</button>
+          </div>
+        </form>
+        <!-- Cluster Correction Start -->
+        <div class="container mt-3">
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Cluster Correction</h4>
+          <table class="table table-hover">
+            <thead>
+              <h2>List of Outliers</h2>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Doe</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Moe</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Dooley</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="mb-3">
+          <div class="fw-bold form-label">Input Cluster Id</div>
+          <div class="input-group">
+            <input class="form-control border-end-0 border" type="search" value="search" id="example-search-input">
+            <span class="input-group-append">
+              <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5"
+                type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </span>
+          </div>
         </div>
-        <div class="d-grid gap-2 col-8 mx-auto">
-          <button class="btn btn-primary" type="button" (click)="fallbackClusterCorrection()">Move on to Cluster Correction</button>
-          <button class="btn btn-primary" type="button" >Move on to node placement</button>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Output Cluster Id</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="02">
         </div>
-      </form>
+        <div class="mb-3">
+          <label for="disabledTextInput" class="fw-bold" >GIS Tool Id</label>
+          <input type="text" id="disabledTextInput" class="form-control" placeholder="03">
+        </div>
+        <div class="d-grid gap-2 mb-3 col-3 mx-auto">
+          <button class="btn btn-primary" type="button">Execute</button>
+        </div>
+        <div class="mb-3 col-6">
+          <button class="btn btn-success" type="button">Go to Node Boundary</button>
+        </div>
       </div>
+      <!-- Cluster Correction End -->
+
     </div>
   </div>
-  <div class="col-7">
-    <app-geoserver-map></app-geoserver-map>
-  </div>
+</div>
+<div class="col-7">
+  <app-geoserver-map></app-geoserver-map>
+</div>
 </div>
