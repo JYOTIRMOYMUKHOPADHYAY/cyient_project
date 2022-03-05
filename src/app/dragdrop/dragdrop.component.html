@@ -16,7 +16,7 @@
 
   <div cdkDropList cdkDropListOrientation="horizontal" class="row" cdkDropList="nodes" [cdkDropListData]="nodes"
     (cdkDropListDropped)="drop($event)">
-    <div class="col-3" *ngFor="let node of nodes" cdkDrag style="display: flex;
+    <div class="col-3 col_mg" *ngFor="let node of nodes" cdkDrag style="display: flex;
     justify-content: center;
     align-items: center;">
       <div class="card" [ngStyle]="node.isCompleted? {'background-color': '#42f55d'}:{'background-color':'white'}"
@@ -39,7 +39,7 @@
         </div>
 
       </div>
-      <span><img width="100px" src="../../assets/Vector.svg" /></span>
+      <span><img width="100%" src="../../assets/Vector.svg" /></span>
     </div>
   </div>
 </div>
