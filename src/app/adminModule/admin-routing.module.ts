@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AdminDashboardComponent } from '../admin-dashboard/admin-dashboard.component';
-import { GeoserverDataComponent } from '../geoserver-data/geoserver-data.component';
-import { HomeComponent } from '../home/home.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AdminDashboardComponent} from '../admin-dashboard/admin-dashboard.component';
+import {GeoserverDataComponent} from '../geoserver-data/geoserver-data.component';
+import {HomeComponent} from '../home/home.component';
+import {DragdropComponent} from '../dragdrop/dragdrop.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: 'geoData',
         component: GeoserverDataComponent,
+      },
+      {
+        path: 'dragdrop',
+        component: DragdropComponent
       }
     ],
   },
@@ -26,4 +31,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AdminRoutingModule {}
+export class AdminRoutingModule {
+}
