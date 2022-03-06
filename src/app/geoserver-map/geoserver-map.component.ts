@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 // import * as geojson from 'geojson';
+
 import 'leaflet-geoserver-request';
 import { GisfileuploadfireService } from '../gisfileuploadfire.service';
 @Component({
@@ -10,29 +11,30 @@ import { GisfileuploadfireService } from '../gisfileuploadfire.service';
 })
 export class GeoserverMapComponent implements OnInit {
   map: any;
-  layerArry = ["SAMPLE_DATA_TWO_234:sample_flask"];
-  constructor(
-    private dataShare: GisfileuploadfireService
-  ) {
+  dataJSON:any
+  layerArry = ['SAMPLE_DATA_TWO_234:sample_flask'];
+  loadingData = false;
+  constructor(private dataShare: GisfileuploadfireService) {
     this.dataShare.data$.subscribe((res) => {
-      console.log(res)
-      if(res){
-              console.log(res['workspace'] +':' + res['pg_table'])
-      this.x(res['workspace'] +':' + res['pg_table'])
+      console.log(res);
+      if (res) {
+        console.log(res['workspace'] + ':' + res['pg_table']);
+        this.x(res['workspace'] + ':' + res['pg_table']);
+        this.x("SAMPLE_DATA_TWO_2345:ar_cluster")
       }
-
-    })
+    });
   }
 
   ngOnInit(): void {
     this.addmaptoInterface();
-
-
   }
 
-  x(data){
+  x(data) {
     // this.layerArry.forEach((data) => {
-      this.wmsLayes(data);
+    // this.ngOnInit()
+    console.log(data)
+    this.loadingData = true;
+    this.wmsLayes(data);
     // });
   }
   addmaptoInterface() {
@@ -44,7 +46,8 @@ export class GeoserverMapComponent implements OnInit {
     }).fitBounds([
       [53.21997825788432, -0.5452508263805933],
       [53.22305537611916, -0.538037276509812],
-    ]);
+    ])
+
 
     var osm = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -59,10 +62,18 @@ export class GeoserverMapComponent implements OnInit {
   wmsLayes(layer) {
     var wms = L.Geoserver.wms('http://45.35.14.184:8080/geoserver/wms', {
       layers: layer,
-    });
-
+    })
     wms.addTo(this.map);
+    this.loadingData = false;
+console.log(L.FeatureGroup['getBounds()'])
+// L.geoJSON(this.dataJSON,{
+//   onEachFeature: function(x,y){
+//     console.log(x)
+//     console.log(y)
+//   }
+// })
   }
+
   // addGeoJSonMarker() {
   //   // Add custom icon
   //   var icon = L.icon({
