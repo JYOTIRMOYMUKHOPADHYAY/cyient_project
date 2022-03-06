@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 // import * as geojson from 'geojson';
 import 'leaflet-geoserver-request';
+import { GisfileuploadfireService } from '../gisfileuploadfire.service';
 @Component({
   selector: 'app-geoserver-map',
   templateUrl: './geoserver-map.component.html',
@@ -9,17 +10,31 @@ import 'leaflet-geoserver-request';
 })
 export class GeoserverMapComponent implements OnInit {
   map: any;
-  layerArry = ['cite:dp_clip', 'cite:st_clip'];
-  constructor() {}
+  layerArry = ["SAMPLE_DATA_TWO_234:sample_flask"];
+  constructor(
+    private dataShare: GisfileuploadfireService
+  ) {
+    this.dataShare.data$.subscribe((res) => {
+      console.log(res)
+      if(res){
+              console.log(res['workspace'] +':' + res['pg_table'])
+      this.x(res['workspace'] +':' + res['pg_table'])
+      }
+
+    })
+  }
 
   ngOnInit(): void {
     this.addmaptoInterface();
 
-    this.layerArry.forEach((data) => {
-      this.wmsLayes(data);
-    });
+
   }
 
+  x(data){
+    // this.layerArry.forEach((data) => {
+      this.wmsLayes(data);
+    // });
+  }
   addmaptoInterface() {
     this.map = L.map('map', {
       zoom: 1,
@@ -42,7 +57,7 @@ export class GeoserverMapComponent implements OnInit {
   }
 
   wmsLayes(layer) {
-    var wms = L.Geoserver.wms('http://localhost:8080/geoserver/wms', {
+    var wms = L.Geoserver.wms('http://45.35.14.184:8080/geoserver/wms', {
       layers: layer,
     });
 

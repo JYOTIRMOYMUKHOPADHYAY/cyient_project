@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { GisfileuploadfireService } from '../gisfileuploadfire.service';
 
 @Component({
   selector: 'app-geoserver-data',
@@ -13,7 +14,8 @@ export class GeoserverDataComponent implements OnInit {
   clusterCorrectionShow:boolean = false
   files = []
   constructor(
-    private httpClient:  HttpClient
+    private httpClient:  HttpClient,
+    private dataShare: GisfileuploadfireService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +36,7 @@ export class GeoserverDataComponent implements OnInit {
 
     this.httpClient.post("http://45.35.14.184:5000/", formData).subscribe(res =>  {
       console.log(res);
+      this.dataShare.changeData(res)
       // alert('Files uploaded Successfully!');
   })
 
