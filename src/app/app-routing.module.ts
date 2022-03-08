@@ -8,7 +8,7 @@ import { ManageConnectionsComponent } from './manage-connections/manage-connecti
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard-tiles', component: DashboardtilesComponent },
+  // { path: 'dashboard-tiles', component: DashboardtilesComponent },
   {
     path: 'dashboard',
     loadChildren: () =>
