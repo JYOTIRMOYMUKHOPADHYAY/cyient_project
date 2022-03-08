@@ -57,6 +57,9 @@ export class GeoserverMapComponent implements OnInit {
       }
     );
     osm.addTo(this.map);
+    console.log(this.map.options.crs.project)
+    console.log(this.map.getBounds())
+    L.popup().setLatLng([53.22727138243429, -0.5452508263805933]).setContent("HEllo").openOn(this.map)
   }
 
   wmsLayes(layer) {
@@ -64,8 +67,8 @@ export class GeoserverMapComponent implements OnInit {
       layers: layer,
     })
     wms.addTo(this.map);
-    this.loadingData = false;
-console.log(L.FeatureGroup['getBounds()'])
+    // L.popup().setLatLng([54.22727138243429, -0.5452508263805933]).setContent("HEllo").openOn(this.map)
+    // console.log(wms)
 // L.geoJSON(this.dataJSON,{
 //   onEachFeature: function(x,y){
 //     console.log(x)
@@ -74,6 +77,19 @@ console.log(L.FeatureGroup['getBounds()'])
 // })
   }
 
+  // someFUnction(){
+  //   var sw = map.options.crs.project(this.map.getBounds().getSouthWest());
+  //               var ne = this.map.options.crs.project(this.map.getBounds().getNorthEast());
+  //               var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
+  //               var WIDTH = this.map.getSize().x;
+  //               var HEIGHT = this.map.getSize().y;
+
+  //               var X = Math.trunc(this.map.layerPointToContainerPoint(e.layerPoint).x);
+  //               var Y = Math.trunc(this.map.layerPointToContainerPoint(e.layerPoint).y);
+
+  //               // compose the URL for the request
+  //               var URL = 'http://localhost:8080/geoserver/geog585/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=geog585:FarmersMarkets&QUERY_LAYERS=geog585:FarmersMarkets&BBOX='+BBOX+'&FEATURE_COUNT=1&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I='+X+'&J='+Y;
+  // }
   // addGeoJSonMarker() {
   //   // Add custom icon
   //   var icon = L.icon({

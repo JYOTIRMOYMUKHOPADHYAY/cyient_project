@@ -4,6 +4,7 @@ import {AdminDashboardComponent} from '../admin-dashboard/admin-dashboard.compon
 import {GeoserverDataComponent} from '../geoserver-data/geoserver-data.component';
 import {HomeComponent} from '../home/home.component';
 import {DragdropComponent} from '../dragdrop/dragdrop.component';
+import { DashboardtilesComponent } from '../dashboardtiles/dashboardtiles.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminDashboardComponent,
+        component: DashboardtilesComponent,
       },
       {
         path: 'geoData',

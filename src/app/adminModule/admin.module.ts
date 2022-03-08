@@ -13,6 +13,7 @@ import {AdminRoutingModule} from './admin-routing.module';
 import {DragDropModule} from "@angular/cdk/drag-drop"
 import {DragdropComponent} from "../dragdrop/dragdrop.component";
 import {ListitemComponent} from '../dragdrop/listitem/listitem.component';
+import { DashboardtilesComponent } from '../dashboardtiles/dashboardtiles.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {ListitemComponent} from '../dragdrop/listitem/listitem.component';
     GeoserverDataComponent,
     GeoserverMapComponent,
     DragdropComponent,
-    ListitemComponent
+    ListitemComponent,
+    DashboardtilesComponent
   ],
   imports: [CommonModule, AdminRoutingModule, FormsModule, ReactiveFormsModule, DragDropModule],
   providers: [],

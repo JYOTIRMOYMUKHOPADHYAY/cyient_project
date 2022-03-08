@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ListitemComponent} from "./dragdrop/listitem/listitem.component";
+import { DashboardtilesComponent } from './dashboardtiles/dashboardtiles.component';
 // import { GeoserverMapComponent } from './geoserver-map/geoserver-map.component';
 // import { DragDropModule} from '@angular/cdk/drag-drop';
 
@@ -14,6 +15,7 @@ import {ListitemComponent} from "./dragdrop/listitem/listitem.component";
   declarations: [
     AppComponent,
     LoginComponent,
+    // DashboardtilesComponent,
   ],
   imports: [
     BrowserAnimationsModule,

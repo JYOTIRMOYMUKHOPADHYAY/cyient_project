@@ -26,9 +26,9 @@ export class GeoserverDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.clusterCorrectionForm = this.formBuilder.group({
-      inputcluster: [''],
-      outputcluster: [''],
-      gistoolid: ['']
+      input_cluster_id: [''],
+      output_cluster_id: [''],
+      gis_tool_id: ['']
     });
 
 
@@ -41,6 +41,25 @@ export class GeoserverDataComponent implements OnInit {
   onSubmitClusterCorrection(){
     console.log(this.clusterCorrectionForm.valid);
     console.log(this.clusterCorrectionForm.value);
+
+const formData = new FormData();
+formData.append("input_cluster_id",  this.clusterCorrectionForm.value.input_cluster_id)
+formData.append("output_cluster_id",  this.clusterCorrectionForm.value.output_cluster_id)
+formData.append("gis_tool_id",  this.clusterCorrectionForm.value.gis_tool_id)
+this.httpClient.post("http://45.35.14.184:5000/update_db", formData).subscribe(res =>  {
+      console.log(res);
+      this.outliers_data = []
+      for(var i = 0; i<res['cluster_id'].length; i++ ) {
+        console.log(res['cluster_id'][i])
+        this.outliers_data.push({
+          "cluster_id":res['cluster_id'][i],
+          "sum_pon_homes":res['sum_pon_homes'][i]
+        })
+      }
+
+      // this.dataShare.changeData(res)
+      // alert('Files uploaded Successfully!');
+  })
   }
   submitCLusturing(){
     this.clusteringFormShow = false
@@ -55,6 +74,8 @@ export class GeoserverDataComponent implements OnInit {
     this.httpClient.post("http://45.35.14.184:5000/", formData).subscribe(res =>  {
       console.log(res);
       this.dataShare.changeData(res)
+
+
       // alert('Files uploaded Successfully!');
   })
 
