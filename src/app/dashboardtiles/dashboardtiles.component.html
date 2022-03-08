@@ -12,7 +12,7 @@
           <div class="card">
              <div class="card-body shadow">
                 <div class="row">
-                   <div class="col-12 col-lg-4 col-md-6 col-sm-12 mt-4">
+                   <div class="col-12 col-lg-4 col-md-6 col-sm-12 mt-4" [routerLink]="['project-management']">
                       <a>
                          <div class="card bg-lightBlue text-white o-hidden h-100 card_hover">
                             <!-- <div class="card-body"> -->
@@ -30,13 +30,30 @@
                       </div>
                       </a>
                    </div>
-                   <div class="col-12 col-lg-4 col-md-6 col-sm-12 mt-4">
+                   <div class="col-12 col-lg-4 col-md-6 col-sm-12 mt-4" [routerLink]="['connection-handeling']">
+                    <a>
+                       <div class="card text-white bg-yellow o-hidden h-100 card_hover">
+                          <div class="card-body align-items-center d-flex justify-content-center">
+                             <div class="mr-5">
+                    <a class="dasbaord-name text-white text-uppercase m-b-20"> <b>
+                      Connection Handling</b></a>
+                    <!-- <span class="dasbaord-name text-white text-uppercase m-b-20"> My Health Report </span> -->
+                    </div>
+                    <div class="card-body-icon">
+                    <img src="../../assets/connection.png" width="110" height="90"
+                       class="float-right" />
+                    </div>
+                    </div>
+                    </div>
+                    </a>
+                 </div>
+                   <div class="col-12 col-lg-4 col-md-6 col-sm-12 mt-4" [routerLink]="['geoData']">
                       <a>
                          <div class="card text-white bg-yellow o-hidden h-100 card_hover">
                             <div class="card-body align-items-center d-flex justify-content-center">
                                <div class="mr-5">
                       <a class="dasbaord-name text-white text-uppercase m-b-20"> <b>
-                        Connection Handling</b></a>
+                        Input Handling</b></a>
                       <!-- <span class="dasbaord-name text-white text-uppercase m-b-20"> My Health Report </span> -->
                       </div>
                       <div class="card-body-icon">
@@ -98,7 +115,7 @@
                       </div>
                       </a>
                    </div>
-                   <div class="col-12 col-lg-4 col-md-6 col-sm-12 mt-4">
+                   <div class="col-12 col-lg-4 col-md-6 col-sm-12 mt-4" [routerLink]="['workflow']">
                       <a>
                          <div class="card bg-sub-healthReport text-white o-hidden h-100 card_hover">
                             <!-- <div class="card-body"> -->
@@ -114,7 +131,7 @@
                       </div>
                       </div>
                       <!-- <div class="mr-5" style="text-align: center;padding-bottom: 10px;">
-                         <a  routerLink="/book-event" class="dasbaord-name text-white m-b-20"> 
+                         <a  routerLink="/book-event" class="dasbaord-name text-white m-b-20">
                              Register for Events</a>
                          </div> -->
                       <!-- </div> -->

@@ -14,6 +14,11 @@ import {DragDropModule} from "@angular/cdk/drag-drop"
 import {DragdropComponent} from "../dragdrop/dragdrop.component";
 import {ListitemComponent} from '../dragdrop/listitem/listitem.component';
 import { DashboardtilesComponent } from '../dashboardtiles/dashboardtiles.component';
+import { ProjectHandelingComponent } from '../project-handeling/project-handeling.component';
+import { CreateProjectComponent } from '../create-project/create-project.component';
+import { InputHandelingComponent } from '../input-handeling/input-handeling.component';
+import { ConnectionHandelingComponent } from '../connection-handeling/connection-handeling.component';
+import { AddEditConnectionComponent } from '../add-edit-connection/add-edit-connection.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,12 @@ import { DashboardtilesComponent } from '../dashboardtiles/dashboardtiles.compon
     GeoserverMapComponent,
     DragdropComponent,
     ListitemComponent,
-    DashboardtilesComponent
+    DashboardtilesComponent,
+    ProjectHandelingComponent,
+    CreateProjectComponent,
+    InputHandelingComponent,
+    ConnectionHandelingComponent,
+    AddEditConnectionComponent
   ],
   imports: [CommonModule, AdminRoutingModule, FormsModule, ReactiveFormsModule, DragDropModule],
   providers: [],
