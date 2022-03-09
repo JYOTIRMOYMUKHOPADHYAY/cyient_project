@@ -22,6 +22,7 @@
 
 .login-pill .nav-link {
     border-radius: 0px;
+    padding: 20px 0px;
     border-bottom: 1px solid #0d6efd40;
     color: #ffffff;
     font-weight: 500;
