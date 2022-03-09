@@ -18,15 +18,20 @@ export class GeoserverMapComponent implements OnInit {
     this.dataShare.data$.subscribe((res) => {
       console.log(res);
       if (res) {
-        console.log(res['workspace'] + ':' + res['pg_table']);
-        this.x(res['workspace'] + ':' + res['pg_table']);
-        this.x("SAMPLE_DATA_TWO_2345:ar_cluster")
+        res['table_name'].forEach(element => {
+          this.x(res['workspace_name'] + ':' + "sample_flask_" + element);
+          console.log(res['workspace_name'] + ':' + "sample_flask_" + element);
+        })
+
+        // this.x(res['workspace_name'] + ':' + res['table_name']);
+        // this.x("dem0456:sample_flask_outlier_output")
       }
     });
   }
 
   ngOnInit(): void {
     this.addmaptoInterface();
+    this.x("SAMPLE_PATH_001:sample_flask_outlier_output")
   }
 
   x(data) {
@@ -67,6 +72,7 @@ export class GeoserverMapComponent implements OnInit {
       layers: layer,
     })
     wms.addTo(this.map);
+    console.log(wms.GetFeatureInfo)
     // L.popup().setLatLng([54.22727138243429, -0.5452508263805933]).setContent("HEllo").openOn(this.map)
     // console.log(wms)
 // L.geoJSON(this.dataJSON,{
