@@ -3,7 +3,7 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
 
 .card {
-    width: 700px;
+    /* width: 700px; */
     border: 1px solid #cbb6b6;
 }
 
@@ -22,6 +22,7 @@
 
 .login-pill .nav-link {
     border-radius: 0px;
+    padding: 20px 0px;
     border-bottom: 1px solid #0d6efd40;
     color: #ffffff;
     font-weight: 500;
@@ -62,3 +63,5 @@
         padding: 3rem 4rem 0rem 4rem !important
     }
   }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

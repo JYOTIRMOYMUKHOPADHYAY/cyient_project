@@ -5,20 +5,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { GeoserverMapComponent } from './geoserver-map/geoserver-map.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    // AddEditConnectionComponent
+    // ConnectionHandelingComponent
+    // InputHandelingComponent
+    // ProjectHandelingComponent,
+    // DashboardtilesComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    // DragDropModule
   ],
+  // entryComponents: [ListitemComponent],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,9 +1,11 @@
-<div class="col-12" style="display: flex; justify-content: end;">
+<div class="col-12" style="display: flex; justify-content: end">
   <div class="col-5">
     <div class="container">
-      <div class="row ">
+      <div class="row">
         <form class="mb-3" *ngIf="clusteringFormShow">
-          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Clusturing</h4>
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">
+            Clusturing
+          </h4>
           <div class="mb-3">
             <select class="form-select" aria-label="Default select example">
               <option value="1">Arial</option>
@@ -11,11 +13,31 @@
             </select>
           </div>
           <div class="mb-3">
-            <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-            <input class="form-control" type="file" name="file" id="formFileMultiple" multiple (change)="filesDropped2($event)">
-            <input class="form-control mt-3" type="file" id="formFileMultiple" multiple>
+            <label for="formFileMultiple" class="form-label"
+              >Multiple files input example</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              name="file"
+              id="formFileMultiple"
+              multiple
+              (change)="filesDropped2($event)"
+            />
+            <input
+              class="form-control mt-3"
+              type="file"
+              id="formFileMultiple"
+              multiple
+            />
           </div>
-          <button type="submit" class="btn btn-primary mt-4" (click)="submitCLusturing()">Execute</button>
+          <button
+            type="submit"
+            class="btn btn-primary mt-4"
+            (click)="submitCLusturing()"
+          >
+            Execute
+          </button>
         </form>
 
         <!-- <form class="mb-3" *ngIf="clusterGroupingFormShow">
@@ -31,29 +53,128 @@
         </form> -->
 
         <form class="mb-3" *ngIf="nodeBoundaryShow">
-          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Node Boundary</h4>
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">
+            Node Boundary
+          </h4>
           <div class="mb-3">
-            <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-            <input class="form-control" type="file" id="formFileMultiple" multiple>
-            <input class="form-control mt-3" type="file" id="formFileMultiple" multiple>
+            <label for="formFileMultiple" class="form-label"
+              >Multiple files input example</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              id="formFileMultiple"
+              multiple
+            />
+            <input
+              class="form-control mt-3"
+              type="file"
+              id="formFileMultiple"
+              multiple
+            />
           </div>
-          <button type="submit" class="btn btn-primary" (click)="submitNodeBoundary()">Execute</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="submitNodeBoundary()"
+          >
+            Execute
+          </button>
         </form>
 
-      <form class="mb-3" *ngIf="clusterCorrectionShow">
-        <h4 class="text-center text-warning p-2 mb-4 text-uppercase">Nb Op</h4>
-        <div class="mb-3">
-          <div class="card text-white bg-success mb-3" style="width: auto;">
-            <div class="card-body">
-              <h5 class="card-title text-center">nBop</h5>
+        <form class="mb-3" *ngIf="clusterCorrectionShow">
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">
+            Nb Op
+          </h4>
+          <div class="mb-3">
+            <div class="card text-white bg-success mb-3" style="width: auto">
+              <div class="card-body">
+                <h5 class="card-title text-center">nBop</h5>
+              </div>
             </div>
           </div>
+          <div class="d-grid gap-2 col-8 mx-auto">
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="fallbackClusterCorrection()"
+            >
+              Move on to Cluster Correction
+            </button>
+            <button class="btn btn-primary" type="button">
+              Move on to node placement
+            </button>
+          </div>
+        </form>
+
+        <!-- Cluster Correction Start -->
+        <div class="container mt-3" *ngIf="clusterCorrectionProcess">
+          <h4 class="text-center text-warning p-2 mb-4 text-uppercase">
+            Cluster Correction
+          </h4>
+          <div style="height: 500px; overflow-y: auto">
+            <table class="table table-hover">
+              <thead>
+                <th>Cluster Id</th>
+                <th>Sum Pon Homes</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of outliers_data">
+                  <td>{{ item["cluster_id"] }}</td>
+                  <td>{{ item["sum_pon_homes"] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <form
+            [formGroup]="clusterCorrectionForm"
+            (ngSubmit)="onSubmitClusterCorrection()"
+          >
+            <div class="mb-3 mt-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Input Cluster Id</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="01"
+                formControlName="input_cluster_id"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Output Cluster Id</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="02"
+                formControlName="output_cluster_id"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="disabledTextInput" class="fw-bold">GIS Tool Id</label>
+              <input
+                type="text"
+                id="disabledTextInput"
+                class="form-control"
+                placeholder="03"
+                formControlName="gis_tool_id"
+              />
+            </div>
+            <div class="d-grid gap-2 mb-3 col-3 mx-auto">
+              <button class="btn btn-primary" type="submit">Execute</button>
+            </div>
+          </form>
+          <div class="mb-3 col-6">
+            <button class="btn btn-success" type="button">
+              Go to Node Boundary
+            </button>
+          </div>
         </div>
-        <div class="d-grid gap-2 col-8 mx-auto">
-          <button class="btn btn-primary" type="button" (click)="fallbackClusterCorrection()">Move on to Cluster Correction</button>
-          <button class="btn btn-primary" type="button" >Move on to node placement</button>
-        </div>
-      </form>
+        <!-- Cluster Correction End -->
       </div>
     </div>
   </div>
