@@ -31,7 +31,7 @@ export class GeoserverMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.addmaptoInterface();
-    this.x("SAMPLE_PATH_001:sample_flask_outlier_output")
+    // this.x("SAMPLE_PATH_001:sample_flask_outlier_output")
   }
 
   x(data) {
