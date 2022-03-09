@@ -75,8 +75,6 @@ this.httpClient.post("http://45.35.14.184:5000/update_db", formData).subscribe(r
       console.log(res);
       this.dataShare.changeData(res)
 
-
-      // alert('Files uploaded Successfully!');
   })
 
 
