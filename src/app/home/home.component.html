@@ -1,63 +1,7 @@
-<div>
+<!--  -->
 
-    <div class="row" style="width: 100%;margin-top: 2rem;">
-        <div class="card-columns mx-auto d-flex justify-content-center col-xs-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
-            <div class="card text-dark mb-3 text-center" style="width: 18rem;border-radius: 0px !important;background-color: #d7d7d7 !important;">
-                <div class="card-body">
-                  <h5 class="card-title">Manage Project</h5>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card-columns mx-auto d-flex justify-content-center col-xs-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
-            <div class="card text-dark mb-3 text-center" style="width: 18rem;border-radius: 0px !important;background-color: #d7d7d7 !important;">
-                <div class="card-body">
-                  <h5 class="card-title">Notification</h5>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card-columns mx-auto d-flex justify-content-center col-xs-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
-            <div class="card text-dark mb-3 text-center" style="width: 18rem;border-radius: 0px !important;background-color: #d7d7d7 !important;">
-                <div class="card-body"  [routerLink]="['/manage-connections']">
-                  <h5 class="card-title">Manage Connections</h5>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="row" style="width: 100%;margin-top: 2rem;">
-        <div class="card-columns mx-auto d-flex justify-content-center col-xs-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
-            <div class="card text-dark mb-3 text-center" style="width: 18rem;border-radius: 0px !important;background-color: #d7d7d7 !important;">
-                <div class="card-body">
-                  <h5 class="card-title">Manage Deliverables</h5>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card-columns mx-auto d-flex justify-content-center col-xs-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
-            <div class="card text-dark mb-3 text-center" style="width: 18rem;border-radius: 0px !important;background-color: #d7d7d7 !important;">
-                <div class="card-body">
-                  <h5 class="card-title">Business Rules</h5>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card-columns mx-auto d-flex justify-content-center col-xs-12 col-md-4 col-lg-4 col-xl-4 col-sm-12">
-            <div class="card text-dark mb-3 text-center" style="width: 18rem;border-radius: 0px !important;background-color: #d7d7d7 !important;">
-                <div class="card-body">
-                  <h5 class="card-title">Workflow</h5>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
+<!-- <app-sidebar></app-sidebar> -->
+<app-navbar></app-navbar>
+<div class="p-1 my-container active-cont">
+  <router-outlet></router-outlet>
 </div>
-
