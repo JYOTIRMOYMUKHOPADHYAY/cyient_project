@@ -83,6 +83,12 @@ export class GeoserverMapComponent implements OnInit {
 // })
   }
 
+
+
+
+
+
+  // FOR REFERENCE=======================
   // someFUnction(){
   //   var sw = map.options.crs.project(this.map.getBounds().getSouthWest());
   //               var ne = this.map.options.crs.project(this.map.getBounds().getNorthEast());
