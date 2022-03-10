@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, CdkDragEnter, CdkDragExit, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Item } from './listitem/listitem.component';
-import { transferArrayItem } from '@angular/cdk/drag-drop';
-import { not } from '@angular/compiler/src/output/output_ast';
+import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 class item {
   name: String;
@@ -23,6 +21,8 @@ class item {
 export class DragdropComponent implements OnInit {
   public parentItem: Item;
   onNext = false;
+  tempX = 0;
+  tempY = 0;
   processCompleted = false;
   timePeriods = [
     'Bronze age',
@@ -32,7 +32,7 @@ export class DragdropComponent implements OnInit {
     'Long nineteenth century',
   ];
 
-  nodes = [{
+  nodes1 = [{
     name: "Cluster grouping",
     desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
     isRunning: false,
@@ -40,6 +40,23 @@ export class DragdropComponent implements OnInit {
     hasError: false,
     nextNode: 2,
     preNode: null,
+    dragPosition: {
+      x: null,
+      y: null,
+    }
+  } ]
+  nodes2 = [{
+    name: "Cluster grouping",
+    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    isRunning: false,
+    isCompleted: false,
+    hasError: false,
+    nextNode: 2,
+    preNode: null,
+    dragPosition: {
+      x: null,
+      y: null,
+    }
   },
   {
     name: "Node Boundary ",
@@ -49,6 +66,10 @@ export class DragdropComponent implements OnInit {
     hasError: false,
     nextNode: 3,
     preNode: 1,
+    dragPosition: {
+      x: null,
+      y: null,
+    }
   },
   {
     name: "Node Placements",
@@ -58,6 +79,10 @@ export class DragdropComponent implements OnInit {
     hasError: false,
     nextNode: 4,
     preNode: 2,
+    dragPosition: {
+      x: null,
+      y: null,
+    }
   },
   {
     name: "Cluster Corrections",
@@ -67,56 +92,105 @@ export class DragdropComponent implements OnInit {
     hasError: false,
     nextNode: null,
     preNode: 3,
+    dragPosition: {
+      x: null,
+      y: null,
+    }
+
   },
   ]
 
-  ref(){
+  changePosition() {
+    console.log("called")
+    // for (let index = 0; index < this.nodes2.length; index++) {
+    //   this.nodes2[index].dragPosition;
+
+    // }
+    this.nodes2.forEach((item) => {
+      console.log(item.dragPosition)
+    })
+  }
+  onDrag(event: CdkDragEnd) {
+
+    const tempName = event.source.element.nativeElement.innerHTML;
+    const currentObject = this.nodes1.find(item => item.name == tempName);
+    this.nodes2.push(currentObject);
+    const index = this.nodes1.findIndex(item => item.name == tempName)
+    this.nodes1.splice(index, 1)
+  }
+  onDragStart(event) {
+    console.log(`starting`, event);
+    // Hide dragged element
+
+  }
+
+  onDragEnd(event: DragEvent) {
+    console.log('drag end', event);
+    // Show dragged element again
+
+  }
+  drop1(event, index) {
+    console.log(event.dropPoint)
+    index.dragPosition.x = event.dropPoint.x;
+    index.dragPosition.y = event.dropPoint.y;
+    console.log(index)
+  }
+  Sort() {
+    const toArray = Object.values(this.nodes2);
+    const sortedByX = [...toArray].sort((a, b) => a.dragPosition.x - b.dragPosition.x)
+    console.log(sortedByX)
+  }
+  delete(currentNode) {
+    console.log(currentNode);
+    // const a= this.nodes1.length;
+    this.nodes1.push(currentNode);
+    // const cnv = currentNode.nextNode;
+    const index = this.nodes2.findIndex(item => item === currentNode)
+    this.nodes2.splice(index, 1)
+
+  }
+  // dropped(event: CdkDragDrop<any[]>) {
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     );
+  //   } else {
+  //     transferArrayItem(
+  //       event.previousContainer.data,
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     );
+  //   }
+  // }
+  ref() {
     location.reload();
   }
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-
     } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
-      );
+        event.currentIndex);
     }
-    this.nodes.forEach((node) => {
-      const index = this.nodes.findIndex(item => item == node)
-      if (index === 0) {
-        node.preNode = null;
-        node.nextNode = 1;
-      }
-      else if (index === this.nodes.length - 1) {
-        node.preNode = this.nodes.length - 1;
-        node.nextNode = null;
-      }
-      else if (index > 0 && index < this.nodes.length - 1) {
-        node.preNode = index - 1;
-        node.nextNode = index + 1;
-      }
-
-    })
-    console.log(this.nodes);
-
   }
 
   start(currentObject) {
     this.onNext = false;
-    //const element = this.nodes[0];
+    //const element = this.nodes1[0];
     currentObject.isRunning = true;
     setTimeout(() => {
       currentObject.isRunning = false;
       currentObject.isCompleted = true;
       this.onNext = true;
-
       if (currentObject.nextNode && currentObject.nextNode != null) {
-        const index = this.nodes.findIndex(item => item == currentObject)
-        this.start(this.nodes[index + 1])
+        const index = this.nodes1.findIndex(item => item == currentObject)
+        this.start(this.nodes1[index + 1])
       } else {
         this.processCompleted = true
       }

@@ -2,74 +2,180 @@
   <div class="example-box" *ngFor="let timePeriod of timePeriods" cdkDrag>{{timePeriod}}</div>
 </div> -->
 
-<div class="container">
-  <div style="margin: 1rem 0rem;" class="row">
-    <div class="col-6" style="text-align: start;">
-      <button class="btn btn-login" (click)="ref()">Refresh</button>
-    </div>
-    <div class="col-6" style="text-align: end;">
-      <button class="btn btn-login" (click)="start(nodes[0])">Start</button>
-    </div>
+<div class="container row">
+  <div class="col-3" style="border-right: 2px solid black;">
 
-  </div>
+    <div cdkDropList #List1="cdkDropList" [cdkDropListData]="nodes1" [cdkDropListConnectedTo]="List1"
+      (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let node of nodes1"  style="display: flex;justify-content: center;" draggable="true"
 
-
-  <div cdkDropList cdkDropListOrientation="horizontal" class="row" cdkDropList="nodes" [cdkDropListData]="nodes"
-    (cdkDropListDropped)="drop($event)">
-    <div class="col-3 col_mg" *ngFor="let node of nodes" cdkDrag style="display: flex;
-    justify-content: center;
-    align-items: center;">
-      <div class="card" [ngStyle]="node.isCompleted? {'background-color': '#42f55d'}:{'background-color':'white'}"
-        style="display: flex;">
-        <div style="height: 125px;display: flex;justify-content: center;align-items: end;" class="text-center">
-          <p style="font-size: 10px;">
-            {{node.name}}
-          </p>
+       >
+        <div *ngIf="node.name===null">
+          Helllo
         </div>
-        <div class="row" style="height: 125px;display: flex;justify-content: end;align-items: end;" class="text-end">
-          <div *ngIf="node.isRunning === true" style="display: flex;margin-right: 5px;">
-            <div style="margin-right: 5px;font-size: 6px;">Running</div>
-            <div class="dotRed"></div>
+        <div cdkDrag   (cdkDragEnded)="onDrag($event)" class="card1 example-box " [class]="node.name" *ngIf="node.name!==null"
+          [ngStyle]="node.isCompleted? {'background-color': '#42f55d'}:{'background-color':'white'}">
+          <div style="display: flex;justify-content: center;align-items: center;" class="row">
+            <p style="font-size: 10px;">
+              {{node.name}}
+            </p>
           </div>
-          <div *ngIf="node.isCompleted === true" style="display: flex;margin-right: 5px;">
-            <div style="margin-right: 5px;font-size: 6px;">Completed</div>
-            <div class="dotGreen"></div>
+          <div class="row" style="display: flex;justify-content: end;align-items: end;" class="text-end">
+            <div *ngIf="node.isRunning === true" style="display: flex;margin-right: 5px;">
+              <div style="margin-right: 5px;font-size: 6px;">Running</div>
+              <div class="dotRed"></div>
+            </div>
+            <div *ngIf="node.isCompleted === true" style="display: flex;margin-right: 5px;">
+              <div style="margin-right: 5px;font-size: 6px;">Completed</div>
+              <div class="dotGreen"></div>
+            </div>
           </div>
-
         </div>
-
+        <!-- <span><img width="100%" src="../../assets/Vector.svg" /></span> -->
       </div>
-      <span><img width="100%" src="../../assets/Vector.svg" /></span>
     </div>
   </div>
-</div>
 
 
-<output></output>
-<div id="input-line" class="input-line">
-  <div class="prompt"></div>
-  <div><input class="cmdline" autofocus /></div>
-</div>
+  <div class="col-9">
+    <div style="margin: 1rem 0rem;" class="row">
+      <div class="col-4" style="text-align: start;">
+        <button class="btn btn-login" (click)="ref()">Refresh</button>
+      </div>
+      <div class="col-4" style="text-align: center;">
+        <button class="btn btn-login" (click)="Sort()">Sort</button>
+      </div>
+      <div class="col-4" style="text-align: end;">
+        <button class="btn btn-login" (click)="start(nodes1[0])">Start</button>
+      </div>
+    </div>
+    <p>
+      <button (click)="changePosition()">Change element position</button>
+    </p>
 
-<div class="clock-container">
-  <svg viewBox="0 0 100 100">
-    <circle cx="50" cy="50" r="45" />
-    <g>
-      <rect class="hour" x="47.5" y="12.5" width="5" height="40" rx="2.5" ry="2.55" />
-      <rect class="min" x="48.5" y="12.5" width="3" height="40" rx="2" ry="2" />
-      <line class="sec" x1="50" y1="50" x2="50" y2="16" />
-    </g>
-  </svg>
-</div>
-<!-- <div cdkDropList [cdkDropListData]="done" (cdkDropListDropped)="drop($event)">
+
+
+    <!-- <div cdkDropList class="row" #List2="cdkDropList" [cdkDropListData]="nodes2" [cdkDropListConnectedTo]="List1"
+      (cdkDropListDropped)="drop($event)"> -->
+      <div *ngFor="let node of nodes2; let index">
+        <div class="example-box" cdkDrag (cdkDragEnded)="drop1($event,index)">
+          <div class="row" style="text-align: center;">
+            <button class="btn btn-login" (click)="delete(node)">Delete</button>
+          </div>
+
+          <div class="row">
+            {{node.name}}
+          </div>
+
+        <!-- </div> -->
+      </div>
+    </div>
+
+
+
+    <!-- <div cdkDropList class="row" #List2="cdkDropList" [cdkDropListData]="nodes2" [cdkDropListConnectedTo]="List1"
+      (cdkDropListDropped)="drop($event)">
+
+
+
+      <div class="col-3" *ngFor="let node of nodes2" cdkDrag style="display: flex;justify-content: center;">
+        <div class="card example-box"
+          [ngStyle]="node.isCompleted? {'background-color': '#42f55d'}:{'background-color':'white'}">
+          <div style="height: 125px;display: flex;justify-content: center;align-items: end;" class="text-center">
+            <p style="font-size: 10px;">
+              {{node.name}}
+            </p>
+          </div> -->
+    <!-- <div class="row" style="height: 125px;display: flex;justify-content: end;align-items: end;" class="text-end">
+            <div *ngIf="node.isRunning === true" style="display: flex;margin-right: 5px;">
+              <div style="margin-right: 5px;font-size: 6px;">Running</div>
+              <div class="dotRed"></div>
+            </div>
+            <div *ngIf="node.isCompleted === true" style="display: flex;margin-right: 5px;">
+              <div style="margin-right: 5px;font-size: 6px;">Completed</div>
+              <div class="dotGreen"></div>
+            </div>
+          </div> -->
+    <!-- </div>
+        <span style="display: flex;"><img width="100%" src="../../assets/Vector.svg" /></span>
+      </div>
+    </div> -->
+    <!-- <output></output>
+    <div id="input-line" class="input-line">
+      <div class="prompt"></div>
+      <div><input class="cmdline" autofocus /></div>
+    </div>
+
+    <div class="clock-container">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" />
+        <g>
+          <rect class="hour" x="47.5" y="12.5" width="5" height="40" rx="2.5" ry="2.55" />
+          <rect class="min" x="48.5" y="12.5" width="3" height="40" rx="2" ry="2" />
+          <line class="sec" x1="50" y1="50" x2="50" y2="16" />
+        </g>
+      </svg>
+    </div> -->
+    <!-- </div>
+</div> -->
+
+    <!-- <div cdkDropList [cdkDropListData]="done" (cdkDropListDropped)="drop($event)">
   <div cdkDrag  [cdkDragData]="done">
     {{done.name}}
   </div>
 </div> -->
-<!--
+    <!--
 <div>
   <app-listitem [item]="parentItem"
              [connectedDropListsIds]="connectedDropListsIds"
              (itemDrop)="onDragDrop($event)">
   </app-listitem>
 </div> -->
+    <!-- <div class="board row">
+  <div class="col-4">
+    <h3>New</h3>
+    <div cdkDropList #new="cdkDropList" cdkDropList="newItems" [cdkDropListData]="[newItems]"
+      (cdkDropListDropped)="dropped($event)">
+      <div *ngFor="let item of newItems" cdkDrag>{{ item }}</div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <h3>Active</h3>
+    <div cdkDropList #active="cdkDropList" cdkDropList="activeItems" [cdkDropListData]="[activeItems]"
+      (cdkDropListDropped)="dropped($event)">
+      <div *ngFor="let item of activeItems" cdkDrag>{{ item }}</div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <h3>Done</h3>
+    <div cdkDropList #done="cdkDropList" cdkDropList="doneItems" [cdkDropListData]="[doneItems]"
+      (cdkDropListDropped)="dropped($event)">
+      <div *ngFor="let item of doneItems" cdkDrag>{{ item }}</div>
+    </div>
+  </div>
+</div> -->
+
+  </div>
+</div>
+<script>
+  function dragStart(event) {
+    event.dataTransfer.setData("Text", event.target.id);
+  }
+
+  function dragging(event) {
+    document.getElementById("demo").innerHTML = "The p element is being dragged";
+  }
+
+  function allowDrop(event) {
+    event.preventDefault();
+  }
+
+  function drop(event) {
+    event.preventDefault();
+    var data = event.dataTransfer.getData("Text");
+    event.target.appendChild(document.getElementById("node.name"));
+    document.getElementById("demo").innerHTML = "The p element was dropped";
+  }
+</script>
