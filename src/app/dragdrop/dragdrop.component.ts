@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Item } from './listitem/listitem.component';
-import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 class item {
   name: String;
@@ -17,12 +16,13 @@ class item {
   templateUrl: './dragdrop.component.html',
   styleUrls: ['./dragdrop.component.css']
 })
-
 export class DragdropComponent implements OnInit {
   public parentItem: Item;
   onNext = false;
   tempX = 0;
   tempY = 0;
+  x: any = 0;
+  show: boolean = true;
   processCompleted = false;
   timePeriods = [
     'Bronze age',
@@ -31,20 +31,7 @@ export class DragdropComponent implements OnInit {
     'Early modern period',
     'Long nineteenth century',
   ];
-
-  nodes1 = [{
-    name: "Cluster grouping",
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-    isRunning: false,
-    isCompleted: false,
-    hasError: false,
-    nextNode: 2,
-    preNode: null,
-    dragPosition: {
-      x: null,
-      y: null,
-    }
-  } ]
+  nodes1 = []
   nodes2 = [{
     name: "Cluster grouping",
     desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
@@ -54,7 +41,7 @@ export class DragdropComponent implements OnInit {
     nextNode: 2,
     preNode: null,
     dragPosition: {
-      x: null,
+      x: 310,
       y: null,
     }
   },
@@ -67,7 +54,7 @@ export class DragdropComponent implements OnInit {
     nextNode: 3,
     preNode: 1,
     dragPosition: {
-      x: null,
+      x: 310,
       y: null,
     }
   },
@@ -80,7 +67,7 @@ export class DragdropComponent implements OnInit {
     nextNode: 4,
     preNode: 2,
     dragPosition: {
-      x: null,
+      x: 310,
       y: null,
     }
   },
@@ -93,114 +80,141 @@ export class DragdropComponent implements OnInit {
     nextNode: null,
     preNode: 3,
     dragPosition: {
-      x: null,
+      x: 310,
       y: null,
     }
-
   },
   ]
+  startX = 0;
+  startY = 0;
+  endX = 0;
+  endY = 0;
+  @ViewChild('native') native: ElementRef;
+  @ViewChild('native1') native1: ElementRef;
 
   changePosition() {
     console.log("called")
-    // for (let index = 0; index < this.nodes2.length; index++) {
-    //   this.nodes2[index].dragPosition;
-
-    // }
     this.nodes2.forEach((item) => {
       console.log(item.dragPosition)
     })
   }
-  onDrag(event: CdkDragEnd) {
 
-    const tempName = event.source.element.nativeElement.innerHTML;
-    const currentObject = this.nodes1.find(item => item.name == tempName);
-    this.nodes2.push(currentObject);
-    const index = this.nodes1.findIndex(item => item.name == tempName)
-    this.nodes1.splice(index, 1)
-  }
-  onDragStart(event) {
-    console.log(`starting`, event);
-    // Hide dragged element
-
-  }
-
-  onDragEnd(event: DragEvent) {
-    console.log('drag end', event);
-    // Show dragged element again
-
-  }
   drop1(event, index) {
-    console.log(event.dropPoint)
-    index.dragPosition.x = event.dropPoint.x;
-    index.dragPosition.y = event.dropPoint.y;
-    console.log(index)
+    if (event.dropPoint.x < this.x && event.distance.x < 0) {
+      const tog = this.nodes1.includes(index);
+      if (!tog) {
+        this.nodes1.push(index);
+        const CI = this.nodes2.findIndex(item => item === index)
+        this.nodes2.splice(CI, 1);
+      }
+    }
+    if (event.dropPoint.x > this.x && event.distance.x > 0) {
+      const tog = this.nodes2.includes(index);
+      if (!tog) {
+        this.nodes2.push(index);
+        const CI = this.nodes1.findIndex(item => item === index)
+        this.nodes1.splice(CI, 1);
+      }
+    }
+    if (this.nodes1.length !== 0) {
+      if (this.nodes1.length == 2) {
+
+        this.nodes1[0].preNode = null;
+        this.nodes1[0].nextNode = 2;
+
+        this.nodes1[1].preNode = 1;
+        this.nodes1[1].nextNode = null;
+      }
+      else {
+        this.nodes1[0].preNode = null;
+        this.nodes1[this.nodes1.length - 1].nextNode = null;
+        for (let index = 0; index < this.nodes1.length; index++) {
+          if (index === 0) {
+            this.nodes1[index].nextNode = 2;
+          }
+          else if (index === this.nodes1.length - 1) {
+            if (index === 1) {
+              this.nodes1[index].preNode = 1;
+              this.nodes1[index].nextNode = null;
+            } else {
+              this.nodes1[index].nextNode = null;
+              this.nodes1[index].preNode = this.nodes1.length - 1;
+            }
+          }
+          else {
+            this.nodes1[index].preNode = this.nodes1[index - 1].nextNode - 1;
+            this.nodes1[index].nextNode = this.nodes1[index - 1].nextNode + 1;
+          }
+        }
+      }
+    }
+    if (this.nodes2.length !== 0) {
+      if (this.nodes2.length == 2) {
+        this.nodes2[0].preNode = null;
+        this.nodes2[0].nextNode = 2;
+        this.nodes2[1].preNode = 1;
+        this.nodes2[1].nextNode = null;
+      }
+      else {
+        this.nodes2[0].preNode = null;
+        this.nodes2[this.nodes2.length - 1].nextNode = null;
+        for (let index = 0; index < this.nodes2.length; index++) {
+          if (index === 0) {
+            this.nodes2[index].nextNode = 2;
+          }
+          else if (index === this.nodes2.length - 1) {
+            if (index === 1) {
+              this.nodes2[index].preNode = 1;
+              this.nodes2[index].nextNode = null;
+            } else {
+              this.nodes2[index].nextNode = null;
+              this.nodes2[index].preNode = this.nodes2.length - 1;
+            }
+          }
+          else {
+            this.nodes2[index].preNode = this.nodes2[index - 1].nextNode - 1;
+            this.nodes2[index].nextNode = this.nodes2[index - 1].nextNode + 1;
+          }
+        }
+      }
+    }
   }
   Sort() {
     const toArray = Object.values(this.nodes2);
     const sortedByX = [...toArray].sort((a, b) => a.dragPosition.x - b.dragPosition.x)
-    console.log(sortedByX)
   }
   delete(currentNode) {
     console.log(currentNode);
-    // const a= this.nodes1.length;
     this.nodes1.push(currentNode);
-    // const cnv = currentNode.nextNode;
     const index = this.nodes2.findIndex(item => item === currentNode)
     this.nodes2.splice(index, 1)
-
   }
-  // dropped(event: CdkDragDrop<any[]>) {
-  //   if (event.previousContainer === event.container) {
-  //     moveItemInArray(
-  //       event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
-  //   } else {
-  //     transferArrayItem(
-  //       event.previousContainer.data,
-  //       event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
-  //   }
-  // }
   ref() {
     location.reload();
   }
-  drop(event: CdkDragDrop<any[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
-  }
-
   start(currentObject) {
     this.onNext = false;
-    //const element = this.nodes1[0];
     currentObject.isRunning = true;
     setTimeout(() => {
       currentObject.isRunning = false;
       currentObject.isCompleted = true;
       this.onNext = true;
       if (currentObject.nextNode && currentObject.nextNode != null) {
-        const index = this.nodes1.findIndex(item => item == currentObject)
-        this.start(this.nodes1[index + 1])
+        const index = this.nodes2.findIndex(item => item == currentObject)
+        this.start(this.nodes2[index + 1])
       } else {
         this.processCompleted = true
       }
     }, 3000);
   }
-  ngOnInit(): void {
-
+  ngOnInit(): void { }
+  ngAfterViewInit() {
+    if (this.native !== undefined) {
+      const el = this.native.nativeElement;
+      this.x = el.getBoundingClientRect(this.native).right;
+      console.log(this.x);
+    }
   }
-
-
 }
 //   printData() {
 //     this.nodes.map((item) => {
