@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Item } from './listitem/listitem.component';
 
+
 class item {
   name: String;
   desc: String;
@@ -18,6 +19,7 @@ class item {
 })
 export class DragdropComponent implements OnInit {
   public parentItem: Item;
+  jsPlumbInstance;
   onNext = false;
   tempX = 0;
   tempY = 0;
@@ -31,8 +33,8 @@ export class DragdropComponent implements OnInit {
     'Early modern period',
     'Long nineteenth century',
   ];
-  nodes1 = []
-  nodes2 = [{
+  nodes1 = [{
+    id: 1,
     name: "Cluster grouping",
     desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
     isRunning: false,
@@ -46,6 +48,7 @@ export class DragdropComponent implements OnInit {
     }
   },
   {
+    id: 2,
     name: "Node Boundary ",
     desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
     isRunning: false,
@@ -59,6 +62,7 @@ export class DragdropComponent implements OnInit {
     }
   },
   {
+    id: 3,
     name: "Node Placements",
     desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
     isRunning: false,
@@ -72,23 +76,58 @@ export class DragdropComponent implements OnInit {
     }
   },
   {
+    id: 4,
     name: "Cluster Corrections",
     desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
     isRunning: false,
     isCompleted: false,
     hasError: false,
-    nextNode: null,
+    nextNode: 5,
     preNode: 3,
     dragPosition: {
       x: 310,
       y: null,
     }
   },
+  {
+    id: 5,
+    name: "Cluster Corrections",
+    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+    isRunning: false,
+    isCompleted: false,
+    hasError: false,
+    nextNode: null,
+    preNode: 4,
+    dragPosition: {
+      x: 310,
+      y: null,
+    }
+  }]
+  nodes2 = [
   ]
+  flag = 0;
+  numbers: any;
   startX = 0;
   startY = 0;
   endX = 0;
   endY = 0;
+  startX1 = 0;
+  startY1 = 0;
+  endX1 = 0;
+  endY1 = 0;
+  startX2 = 0;
+  startY2 = 0;
+  endX2 = 0;
+  endY2 = 0;
+  startX3 = 0;
+  startY3 = 0;
+  endX3 = 0;
+  endY3 = 0;
+  a1: any;
+  a2: any;
+  a3: any;
+  a4: any;
+  a5: any;
   @ViewChild('native') native: ElementRef;
   @ViewChild('native1') native1: ElementRef;
 
@@ -100,11 +139,13 @@ export class DragdropComponent implements OnInit {
   }
 
   drop1(event, index) {
+    console.log(event.dropPoint)
     if (event.dropPoint.x < this.x && event.distance.x < 0) {
       const tog = this.nodes1.includes(index);
       if (!tog) {
         this.nodes1.push(index);
         const CI = this.nodes2.findIndex(item => item === index)
+        this.flag = this.flag - 1;
         this.nodes2.splice(CI, 1);
       }
     }
@@ -113,7 +154,32 @@ export class DragdropComponent implements OnInit {
       if (!tog) {
         this.nodes2.push(index);
         const CI = this.nodes1.findIndex(item => item === index)
-        this.nodes1.splice(CI, 1);
+        if (this.flag == 0) {
+          this.a1 = index;
+          this.flag = this.flag + 1;
+          this.nodes1.splice(CI, 1);
+        }
+        else if (this.flag == 1) {
+          this.a2 = index;
+          this.flag = this.flag + 1;
+          this.nodes1.splice(CI, 1);
+        }
+        else if (this.flag == 2) {
+          this.a3 = index;
+          this.flag = this.flag + 1;
+          this.nodes1.splice(CI, 1);
+        }
+        else if (this.flag == 3) {
+          this.a4 = index;
+          this.flag = this.flag + 1;
+          this.nodes1.splice(CI, 1);
+        }
+        else {
+          this.a5 = index;
+          this.flag = this.flag + 1;
+          this.nodes1.splice(CI, 1);
+        }
+
       }
     }
     if (this.nodes1.length !== 0) {
@@ -178,6 +244,7 @@ export class DragdropComponent implements OnInit {
         }
       }
     }
+
   }
   Sort() {
     const toArray = Object.values(this.nodes2);
@@ -207,6 +274,47 @@ export class DragdropComponent implements OnInit {
       }
     }, 3000);
   }
+  showConnection1() {
+    const startElement = document.querySelector("#A1");
+    const endElement = document.querySelector("#A2");
+    const startRect = startElement.getBoundingClientRect();
+    const endRect = endElement.getBoundingClientRect();
+
+    this.startX = startRect.right;
+    this.startY = startRect.top + 100;
+
+    this.endX = endRect.left;
+    this.endY = endRect.top + 100;
+  }
+  showConnection2() {
+    const startElement = document.querySelector("#A2");
+    const endElement = document.querySelector("#A3");
+    const startRect = startElement.getBoundingClientRect();
+    const endRect = endElement.getBoundingClientRect();
+
+    this.startX = startRect.right;
+    this.startY = startRect.top + 100;
+
+    this.endX = endRect.left;
+    this.endY = endRect.top + 100;
+  }
+  showConnection3() {
+    const startElement = document.querySelector("#A3");
+    const endElement = document.querySelector("#A4");
+    const startRect = startElement.getBoundingClientRect();
+    const endRect = endElement.getBoundingClientRect();
+
+    this.startX1 = startRect.right;
+    this.startY1 = startRect.top + 100;
+
+    this.endX1 = endRect.left;
+    this.endY1 = endRect.top + 100;
+  }
+  call() {
+    this.showConnection1();
+    this.showConnection2();
+    this.showConnection3();
+  }
   ngOnInit(): void { }
   ngAfterViewInit() {
     if (this.native !== undefined) {
@@ -214,6 +322,54 @@ export class DragdropComponent implements OnInit {
       this.x = el.getBoundingClientRect(this.native).right;
       console.log(this.x);
     }
+    setTimeout(() => {
+      const startElement = document.querySelector("#start");
+      const endElement = document.querySelector("#end");
+      const startRect = startElement.getBoundingClientRect();
+      const endRect = endElement.getBoundingClientRect();
+
+      this.startX = startRect.right;
+      this.startY = startRect.top + 100;
+
+      this.endX = endRect.left;
+      this.endY = endRect.top + 100;
+      //2
+      const startElement1 = document.querySelector("#end");
+      const endElement1 = document.querySelector("#end1");
+      const startRect1 = startElement1.getBoundingClientRect();
+      const endRect1 = endElement1.getBoundingClientRect();
+
+      this.startX1 = startRect1.right;
+      this.startY1 = startRect1.top + 100;
+
+      this.endX1 = endRect1.left;
+      this.endY1 = endRect1.top + 100;
+
+      const startElement2 = document.querySelector("#end1");
+      const endElement2 = document.querySelector("#end2");
+      const startRect2 = startElement2.getBoundingClientRect();
+      const endRect2 = endElement2.getBoundingClientRect();
+
+      this.startX2 = startRect2.right;
+      this.startY2 = startRect2.top + 100;
+
+      this.endX2 = endRect2.left;
+      this.endY2 = endRect2.top + 100;
+
+
+      const startElement3 = document.querySelector("#end2");
+      const endElement3 = document.querySelector("#end3");
+      const startRect3 = startElement3.getBoundingClientRect();
+      const endRect3 = endElement3.getBoundingClientRect();
+
+      this.startX3 = startRect3.right;
+      this.startY3 = startRect3.top + 100;
+
+      this.endX3 = endRect3.left;
+      this.endY3 = endRect3.top + 100;
+    });
+
+
   }
 }
 //   printData() {

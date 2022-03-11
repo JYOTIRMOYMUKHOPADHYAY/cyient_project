@@ -29,10 +29,60 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-3" *ngFor="let node of nodes2; let index">
+      <!-- <div class="col-3" [hidden]="a1==null" id="A1">
+
+      </div>
+      <div class="col-3" [hidden]="a2==null" id="A2">
+
+      </div>
+      <div class="col-3" [hidden]="a3==null" id="A3">
+
+      </div>
+      <div class="col-3" [hidden]="a4==null" id="A4">
+
+      </div> -->
+      <div id="start" class="example-box col-3" cdkDrag *ngIf="a1!=null" (cdkDragMoved)="ngAfterViewInit()"
+        (cdkDragEnded)="drop1($event,a1)">
+        {{a1.name}}
+      </div>
+      <div id="end" class="example-box col-3" cdkDrag *ngIf="a2!=null" (cdkDragMoved)="ngAfterViewInit()"
+        (cdkDragEnded)="drop1($event,a2)">
+        {{a2.name}}
+      </div>
+      <div id="end1" class="example-box col-3" cdkDrag *ngIf="a3!=null" (cdkDragMoved)="ngAfterViewInit()"
+        (cdkDragEnded)="drop1($event,a3)">
+        {{a3.name}}
+      </div>
+      <div id="end2" class="example-box col-3" cdkDrag *ngIf="a4!=null" (cdkDragMoved)="ngAfterViewInit()"
+        (cdkDragEnded)="drop1($event,a4)">
+        {{a4.name}}
+      </div>
+      <div id="end3" class="example-box col-3" cdkDrag *ngIf="a5!=null" (cdkDragMoved)="ngAfterViewInit()"
+        (cdkDragEnded)="drop1($event,a5)">
+        {{a5.name}}
+      </div>
+
+      <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto"
+            markerUnits="strokeWidth" viewBox="0 0 20 20">
+            <path d="M0,0 L0,6 L9,3 z" fill="#f00" />
+          </marker>
+        </defs>
+
+        <line [attr.x1]="startX" [attr.y1]="startY" [attr.x2]="endX" [attr.y2]="endY" stroke="#f00" stroke-width="3"
+          marker-end="url(#arrow)" />
+        <line [attr.x1]="startX1" [attr.y1]="startY1" [attr.x2]="endX1" [attr.y2]="endY1" stroke="#f00" stroke-width="3"
+          marker-end="url(#arrow)" />
+        <line [attr.x1]="startX2" [attr.y1]="startY2" [attr.x2]="endX2" [attr.y2]="endY2" stroke="#f00" stroke-width="3"
+          marker-end="url(#arrow)" />
+        <line [attr.x1]="startX3" [attr.y1]="startY3" [attr.x2]="endX3" [attr.y2]="endY3" stroke="#f00" stroke-width="3"
+          marker-end="url(#arrow)" />
+      </svg>
+      <!-- <div class="col-3" *ngFor="let node of nodes2; let index">
         <div class="example-box" cdkDrag (cdkDragEnded)="drop1($event,index)" style="margin:5px;display: inline-box;"
           [ngStyle]="node.isCompleted? {'background-color': '#42f55d'}:{'background-color':'white'}">
-          <div class="row">
+          <div class="row" id="{{'Target1'+node.id+1}}">
             <div class="col-12">
               {{node.name}}
             </div>
@@ -48,10 +98,11 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
   </div>
+
 </div>
 
 
