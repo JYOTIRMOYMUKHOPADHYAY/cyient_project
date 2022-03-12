@@ -4441,6 +4441,11 @@
   "resolved" "https://registry.npmjs.org/leaflet-geoserver-request/-/leaflet-geoserver-request-1.2.2.tgz"
   "version" "1.2.2"
 
+"leaflet-wms@^0.1.0":
+  "integrity" "sha1-0H8eyiriPGjduk/Jibr7HO2D2V8="
+  "resolved" "https://registry.npmjs.org/leaflet-wms/-/leaflet-wms-0.1.0.tgz"
+  "version" "0.1.0"
+
 "leaflet@^1.7.1":
   "integrity" "sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw=="
   "resolved" "https://registry.npmjs.org/leaflet/-/leaflet-1.7.1.tgz"

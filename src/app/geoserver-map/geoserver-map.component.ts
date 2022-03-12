@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 // import * as geojson from 'geojson';
@@ -10,117 +11,130 @@ import { GisfileuploadfireService } from '../gisfileuploadfire.service';
   styleUrls: ['./geoserver-map.component.css'],
 })
 export class GeoserverMapComponent implements OnInit {
+  baseMapObj = {};
+  CLS:string = "NODE_7432:node_boundary"
   map: any;
   dataJSON: any;
   layerArry = ['SAMPLE_DATA_TWO_234:sample_flask'];
   loadingData = false;
-  constructor(private dataShare: GisfileuploadfireService) {
+  constructor(
+    private dataShare: GisfileuploadfireService,
+    private http: HttpClient
+  ) {
     this.dataShare.data$.subscribe((res) => {
       console.log(res);
       if (res) {
         res['table_name'].forEach((element) => {
           this.x(res['workspace_name'] + ':' + 'sample_flask_' + element);
-          console.log(res['workspace_name'] + ':' + 'sample_flask_' + element);
+          console.log(res['workspace_name'] + ':' + 'sample_flask_' + element)
         });
-
-        // this.x(res['workspace_name'] + ':' + res['table_name']);
-        // this.x("dem0456:sample_flask_outlier_output")
       }
+    });
+
+    this.dataShare.nodeBoundary$.subscribe((res) => {
+      if (res) this.x(res['workspace'] + ':' + res['sample_flask']);
+      // }
     });
   }
 
   ngOnInit(): void {
     this.addmaptoInterface();
-    // this.x("SAMPLE_PATH_001:sample_flask_outlier_output")
+    // this.wmsLayes("UAT_1:sample_flask_cluster_output_1")
+    this.map.on('click', (e) => {
+
+
+      let LAAT = e;
+      var X = Math.trunc(this.map.layerPointToContainerPoint(e.layerPoint).x);
+      var Y = Math.trunc(this.map.layerPointToContainerPoint(e.layerPoint).y);
+
+      console.log(X)
+      console.log(Y)
+      var sw = this.map.options.crs.project(
+        this.map.getBounds().getSouthWest()
+      );
+      var ne = this.map.options.crs.project(
+        this.map.getBounds().getNorthEast()
+      );
+      var BBOX = sw.x + ',' + sw.y + ',' + ne.x + ',' + ne.y;
+      var WIDTH = this.map.getSize().x;
+      var HEIGHT = this.map.getSize().y;
+        console.log(WIDTH)
+        console.log(HEIGHT)
+        console.log(BBOX)
+
+      //   this.http.get("http://localhost:8080/geoserver/wms?&INFO_FORMAT=application/json&REQUEST=GetFeatureInfo&EXCEPTIONS=application/vnd.ogc.se_xml&SERVICE=WMS&VERSION=1.1.1&WIDTH="+WIDTH+"&HEIGHT="+HEIGHT+"&X="+X+"&Y="+Y+"&BBOX=496841.25,370088.96875,497990.03125,370718.625&LAYERS=cite:dp_clip&QUERY_LAYERS=cite:dp_clip&TYPENAME=cite:dp_clip")
+      this.http
+        .get(
+          'http://45.35.14.184:8080/geoserver/wms/?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&layers='+this.CLS+'&BBOX=497259.53125%2C370117.0625%2C497958.5%2C370483.03125&FEATURE_COUNT=1&info_format=application/json&HEIGHT=' +
+            HEIGHT +
+            '&WIDTH=' +
+            WIDTH +
+            '&query_layers='+this.CLS+'&SRS=EPSG%3A27700&buffer=15&X=' +
+            Y +
+            '&Y=' +
+            X
+        )
+        .subscribe((res) => {
+          console.log(res);
+
+          L.popup()
+            .setLatLng([e.latlng.lat, e.latlng.lng])
+            .setContent(
+              `
+      <p>GIS ToolID: ${res['features'][0]['properties']['gistool_id']}<p>
+      <p>Cluster ID: ${res['features'][0]['properties']['cluster_id']}<p>
+
+      `
+            )
+            .openOn(this.map);
+
+          this.dataShare.passGIStoolid(
+            res['features'][0]['properties']['gistool_id']
+          );
+        });
+    });
   }
 
   x(data) {
-    // this.layerArry.forEach((data) => {
-    // this.ngOnInit()
-    console.log(data);
+
     this.loadingData = true;
     this.wmsLayes(data);
-    // });
   }
   addmaptoInterface() {
-    this.map = L.map('map', {
-      zoom: 1,
-      zoomControl: true,
-      maxZoom: 28,
-      minZoom: 1,
-    }).fitBounds([
+    this.map = L.map('map').fitBounds([
       [53.21997825788432, -0.5452508263805933],
       [53.22305537611916, -0.538037276509812],
-    ]);
+    ])
 
     var osm = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         attribution:
           "&copy; <a href='https://openstreetmap.org/copyright'> Openstreet map</a> contributors",
+          maxZoom: 18,
+          // zoomOffset: -1
       }
     );
     osm.addTo(this.map);
-    console.log(this.map.options.crs.project);
-    console.log(this.map.getBounds());
-    L.popup()
-      .setLatLng([53.22727138243429, -0.5452508263805933])
-      .setContent('HEllo')
-      .openOn(this.map);
   }
 
   wmsLayes(layer) {
+    console.log(layer)
     var wms = L.Geoserver.wms('http://45.35.14.184:8080/geoserver/wms', {
+
       layers: layer,
     });
+    console.log(wms)
     wms.addTo(this.map);
-    console.log(wms.GetFeatureInfo());
-    // L.popup().setLatLng([54.22727138243429, -0.5452508263805933]).setContent("HEllo").openOn(this.map)
-    // console.log(wms)
-    // L.geoJSON(this.dataJSON,{
-    //   onEachFeature: function(x,y){
-    //     console.log(x)
-    //     console.log(y)
-    //   }
-    // })
+    // console.log(wms.getBounds())
+
+    // var baseMaps = {
+    //   x: wms,
+    // };
+    // L.control.layers(baseMaps).addTo(this.map);
   }
-
-  // FOR REFERENCE=======================
-  // someFUnction(){
-  //   var sw = map.options.crs.project(this.map.getBounds().getSouthWest());
-  //               var ne = this.map.options.crs.project(this.map.getBounds().getNorthEast());
-  //               var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
-  //               var WIDTH = this.map.getSize().x;
-  //               var HEIGHT = this.map.getSize().y;
-
-  //               var X = Math.trunc(this.map.layerPointToContainerPoint(e.layerPoint).x);
-  //               var Y = Math.trunc(this.map.layerPointToContainerPoint(e.layerPoint).y);
-
-  //               // compose the URL for the request
-  //               var URL = 'http://localhost:8080/geoserver/geog585/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=geog585:FarmersMarkets&QUERY_LAYERS=geog585:FarmersMarkets&BBOX='+BBOX+'&FEATURE_COUNT=1&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I='+X+'&J='+Y;
-  // }
-  // addGeoJSonMarker() {
-  //   // Add custom icon
-  //   var icon = L.icon({
-  //     iconUrl: 'assets/leaf-red.png',
-  //     shadowUrl: 'assets/leaf-shadow.png',
-  //     iconSize: [38, 95],
-  //     shadowSize: [50, 64],
-  //     iconAnchor: [22, 94],
-  //     shadowAnchor: [4, 62],
-  //     popupAnchor: [-3, -76],
-  //   });
-  //   var geojsonPoint: geojson.Point = {
-  //     type: 'Point',
-  //     coordinates: [5.9, 43.13],
-  //   };
-  //   var marker = L.geoJSON(geojsonPoint, {
-  //     pointToLayer: (point, latlon) => {
-  //       return L.marker(latlon, { icon: icon });
-  //     },
-  //   });
-  //   //Add popup message
-  //   marker.bindPopup('Parceque TOULON !');
-  //   marker.addTo(this.map);
-  // }
 }
+
+
+
+// http://http://45.35.14.184:8080/geoserver/wms?&INFO_FORMAT=application/json&REQUEST=GetFeatureInfo&EXCEPTIONS=application/vnd.ogc.se_xml&SERVICE=WMS&VERSION=1.1.1&WIDTH=770&HEIGHT=485&X=522&Y=341&BBOX=496841.25,370088.96875,497990.03125,370718.625&LAYERS=OUT_LAYER_1:sample_flask_cluster_output&QUERY_LAYERS=OUT_LAYER_1:sample_flask_cluster_output&TYPENAME=OUT_LAYER_1:sample_flask_cluster_output
