@@ -1,5 +1,7 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Item } from './listitem/listitem.component';
+
 
 
 class item {
@@ -19,6 +21,7 @@ class item {
 })
 export class DragdropComponent implements OnInit {
   public parentItem: Item;
+  globalCounter = 0;
   jsPlumbInstance;
   onNext = false;
   tempX = 0;
@@ -103,10 +106,8 @@ export class DragdropComponent implements OnInit {
       y: null,
     }
   }]
-  nodes2 = [
-  ]
+  nodes2 = []
   flag = 0;
-  numbers: any;
   startX = 0;
   startY = 0;
   endX = 0;
@@ -139,7 +140,7 @@ export class DragdropComponent implements OnInit {
   }
 
   drop1(event, index) {
-    console.log(event.dropPoint)
+
     if (event.dropPoint.x < this.x && event.distance.x < 0) {
       const tog = this.nodes1.includes(index);
       if (!tog) {
@@ -147,8 +148,25 @@ export class DragdropComponent implements OnInit {
         const CI = this.nodes2.findIndex(item => item === index)
         this.flag = this.flag - 1;
         this.nodes2.splice(CI, 1);
+        this.globalCounter = this.globalCounter - 1;
+        if (index == this.a1) {
+          this.a1 = null;
+        }
+        else if (index == this.a2) {
+          this.a2 = null;
+        }
+        else if (index == this.a3) {
+          this.a3 = null;
+        }
+        else if (index == this.a4) {
+          this.a4 = null;
+        }
+        else if (index == this.a5) {
+          this.a5 = null;
+        }
       }
     }
+
     if (event.dropPoint.x > this.x && event.distance.x > 0) {
       const tog = this.nodes2.includes(index);
       if (!tog) {
@@ -156,30 +174,44 @@ export class DragdropComponent implements OnInit {
         const CI = this.nodes1.findIndex(item => item === index)
         if (this.flag == 0) {
           this.a1 = index;
+          this.a1.nextNode = 2;
+          this.a1.preNode = null;
           this.flag = this.flag + 1;
           this.nodes1.splice(CI, 1);
+          this.globalCounter = 1;
         }
         else if (this.flag == 1) {
           this.a2 = index;
+          this.a2.nextNode = 3;
+          this.a2.preNode = 1;
           this.flag = this.flag + 1;
           this.nodes1.splice(CI, 1);
+          this.globalCounter = 2;
         }
         else if (this.flag == 2) {
           this.a3 = index;
+          this.a3.nextNode = 4;
+          this.a3.prevNode = 2
           this.flag = this.flag + 1;
           this.nodes1.splice(CI, 1);
+          this.globalCounter = 3;
         }
         else if (this.flag == 3) {
           this.a4 = index;
+          this.a4.nextNode = 5;
+          this.a4.preNode = 3;
           this.flag = this.flag + 1;
           this.nodes1.splice(CI, 1);
+          this.globalCounter = 4;
         }
         else {
           this.a5 = index;
+          this.a5.nextNode = null;
+          this.a5.preNode = 4;
           this.flag = this.flag + 1;
           this.nodes1.splice(CI, 1);
+          this.globalCounter = 5;
         }
-
       }
     }
     if (this.nodes1.length !== 0) {
@@ -250,70 +282,156 @@ export class DragdropComponent implements OnInit {
     const toArray = Object.values(this.nodes2);
     const sortedByX = [...toArray].sort((a, b) => a.dragPosition.x - b.dragPosition.x)
   }
-  delete(currentNode) {
-    console.log(currentNode);
-    this.nodes1.push(currentNode);
-    const index = this.nodes2.findIndex(item => item === currentNode)
-    this.nodes2.splice(index, 1)
-  }
   ref() {
     location.reload();
   }
-  start(currentObject) {
-    this.onNext = false;
-    currentObject.isRunning = true;
-    setTimeout(() => {
-      currentObject.isRunning = false;
-      currentObject.isCompleted = true;
-      this.onNext = true;
-      if (currentObject.nextNode && currentObject.nextNode != null) {
-        const index = this.nodes2.findIndex(item => item == currentObject)
-        this.start(this.nodes2[index + 1])
-      } else {
-        this.processCompleted = true
-      }
-    }, 3000);
+  start() {
+    if (this.a1 != null) {
+      this.a1.isRunning = false;
+      this.a1.isCompleted = false;
+    }
+    if (this.a2 != null) {
+      this.a2.isRunning = false;
+      this.a2.isCompleted = false;
+    }
+    if (this.a3 != null) {
+      this.a3.isRunning = false;
+      this.a3.isCompleted = false;
+    }
+    if (this.a4 != null) {
+      this.a4.isRunning = false;
+      this.a4.isCompleted = false;
+    }
+    if (this.a5 != null) {
+      this.a5.isRunning = false;
+      this.a5.isCompleted = false;
+    }
+    if (this.a1 != null) {
+      this.a1.isRunning = true;
+      setTimeout(() => {
+        this.a1.isRunning = false;
+        this.a1.isCompleted = true;
+        this.start1();
+      }, 3000);
+    }
   }
-  showConnection1() {
-    const startElement = document.querySelector("#A1");
-    const endElement = document.querySelector("#A2");
-    const startRect = startElement.getBoundingClientRect();
-    const endRect = endElement.getBoundingClientRect();
-
-    this.startX = startRect.right;
-    this.startY = startRect.top + 100;
-
-    this.endX = endRect.left;
-    this.endY = endRect.top + 100;
+  start1() {
+    console.log("start1")
+    if (this.a2 != null) {
+      this.a2.isRunning = true;
+      setTimeout(() => {
+        this.a2.isRunning = false;
+        this.a2.isCompleted = true;
+        this.start2();
+      }, 3000);
+    }
   }
-  showConnection2() {
-    const startElement = document.querySelector("#A2");
-    const endElement = document.querySelector("#A3");
-    const startRect = startElement.getBoundingClientRect();
-    const endRect = endElement.getBoundingClientRect();
-
-    this.startX = startRect.right;
-    this.startY = startRect.top + 100;
-
-    this.endX = endRect.left;
-    this.endY = endRect.top + 100;
+  start2() {
+    if (this.a3 != null) {
+      this.a3.isRunning = true;
+      setTimeout(() => {
+        this.a3.isRunning = false;
+        this.a3.isCompleted = true;
+        this.start3();
+      }, 3000);
+    }
   }
-  showConnection3() {
-    const startElement = document.querySelector("#A3");
-    const endElement = document.querySelector("#A4");
-    const startRect = startElement.getBoundingClientRect();
-    const endRect = endElement.getBoundingClientRect();
-
-    this.startX1 = startRect.right;
-    this.startY1 = startRect.top + 100;
-
-    this.endX1 = endRect.left;
-    this.endY1 = endRect.top + 100;
+  start3() {
+    if (this.a4 != null) {
+      this.a4.isRunning = true;
+      setTimeout(() => {
+        this.a4.isRunning = false;
+        this.a4.isCompleted = true;
+        this.start4();
+      }, 3000);
+    }
   }
+  start4() {
+    if (this.a5 != null) {
+      this.a5.isRunning = true;
+      setTimeout(() => {
+        this.a5.isRunning = false;
+        this.a5.isCompleted = true;
+      }, 3000);
+    }
+
+  }
+  // start(currentObject) {
+  //   console.log("im called")
+  //   this.onNext = false;
+  //   currentObject.isRunning = true;
+  //   setTimeout(() => {
+  //     currentObject.isRunning = false;
+  //     currentObject.isCompleted = true;
+  //     this.onNext = true;
+  //     if (currentObject.nextNode && currentObject.nextNode != null) {
+  //       const index = this.nodes2.findIndex(item => item == currentObject)
+  //       this.start(this.nodes2[index + 1])
+  //     } else {
+  //       this.processCompleted = true
+  //     }
+  //   }, 3000);
+  // }
+
   call() {
-    this.showConnection1();
-    this.showConnection2();
-    this.showConnection3();
+    console.log("call")
+    if (this.globalCounter == 2) {
+      setTimeout(() => {
+        const startElement = document.querySelector("#start");
+        const endElement = document.querySelector("#end");
+        const startRect = startElement.getBoundingClientRect();
+        const endRect = endElement.getBoundingClientRect();
+
+        this.startX = startRect.right;
+        this.startY = startRect.top + 100;
+
+        this.endX = endRect.left;
+        this.endY = endRect.top + 100;
+      });
+    }
+    else if (this.globalCounter == 3) {
+      setTimeout(() => {
+        const startElement1 = document.querySelector("#end");
+        const endElement1 = document.querySelector("#end1");
+        const startRect1 = startElement1.getBoundingClientRect();
+        const endRect1 = endElement1.getBoundingClientRect();
+
+        this.startX1 = startRect1.right;
+        this.startY1 = startRect1.top + 100;
+
+        this.endX1 = endRect1.left;
+        this.endY1 = endRect1.top + 100;
+      })
+    }
+    else if (this.globalCounter == 4) {
+      setTimeout(() => {
+        const startElement2 = document.querySelector("#end1");
+        const endElement2 = document.querySelector("#end2");
+        const startRect2 = startElement2.getBoundingClientRect();
+        const endRect2 = endElement2.getBoundingClientRect();
+
+        this.startX2 = startRect2.right;
+        this.startY2 = startRect2.top + 100;
+
+        this.endX2 = endRect2.left;
+        this.endY2 = endRect2.top + 100;
+      });
+    }
+    else if (this.globalCounter == 5) {
+      setTimeout(() => {
+        const startElement3 = document.querySelector("#end2");
+        const endElement3 = document.querySelector("#end3");
+        const startRect3 = startElement3.getBoundingClientRect();
+        const endRect3 = endElement3.getBoundingClientRect();
+
+        this.startX3 = startRect3.right;
+        this.startY3 = startRect3.top + 100;
+
+        this.endX3 = endRect3.left;
+        this.endY3 = endRect3.top + 100;
+      });
+
+    }
   }
   ngOnInit(): void { }
   ngAfterViewInit() {
@@ -322,53 +440,6 @@ export class DragdropComponent implements OnInit {
       this.x = el.getBoundingClientRect(this.native).right;
       console.log(this.x);
     }
-    setTimeout(() => {
-      const startElement = document.querySelector("#start");
-      const endElement = document.querySelector("#end");
-      const startRect = startElement.getBoundingClientRect();
-      const endRect = endElement.getBoundingClientRect();
-
-      this.startX = startRect.right;
-      this.startY = startRect.top + 100;
-
-      this.endX = endRect.left;
-      this.endY = endRect.top + 100;
-      //2
-      const startElement1 = document.querySelector("#end");
-      const endElement1 = document.querySelector("#end1");
-      const startRect1 = startElement1.getBoundingClientRect();
-      const endRect1 = endElement1.getBoundingClientRect();
-
-      this.startX1 = startRect1.right;
-      this.startY1 = startRect1.top + 100;
-
-      this.endX1 = endRect1.left;
-      this.endY1 = endRect1.top + 100;
-
-      const startElement2 = document.querySelector("#end1");
-      const endElement2 = document.querySelector("#end2");
-      const startRect2 = startElement2.getBoundingClientRect();
-      const endRect2 = endElement2.getBoundingClientRect();
-
-      this.startX2 = startRect2.right;
-      this.startY2 = startRect2.top + 100;
-
-      this.endX2 = endRect2.left;
-      this.endY2 = endRect2.top + 100;
-
-
-      const startElement3 = document.querySelector("#end2");
-      const endElement3 = document.querySelector("#end3");
-      const startRect3 = startElement3.getBoundingClientRect();
-      const endRect3 = endElement3.getBoundingClientRect();
-
-      this.startX3 = startRect3.right;
-      this.startY3 = startRect3.top + 100;
-
-      this.endX3 = endRect3.left;
-      this.endY3 = endRect3.top + 100;
-    });
-
 
   }
 }
