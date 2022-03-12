@@ -15,15 +15,15 @@ p {
 }
 
 .dotRed {
-  height: 1rem;
-  width: 1rem;
+  height: 0.5rem;
+  width: 0.5rem;
   background-color: red;
   border-radius: 50%;
 }
 
 .dotGreen {
-  height: 1rem;
-  width: 1rem;
+  height: 0.5rem;
+  width: 0.5rem;
   background-color: rgb(7, 80, 7);
   border-radius: 50%;
 }

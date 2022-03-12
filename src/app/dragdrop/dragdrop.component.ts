@@ -124,6 +124,10 @@ export class DragdropComponent implements OnInit {
   startY3 = 0;
   endX3 = 0;
   endY3 = 0;
+  globalA2: any;
+  globalA3: any;
+  globalA4: any;
+  globalA5: any;
   a1: any;
   a2: any;
   a3: any;
@@ -377,60 +381,63 @@ export class DragdropComponent implements OnInit {
     console.log("call")
     if (this.globalCounter == 2) {
       setTimeout(() => {
+        this.globalA2 = true;
         const startElement = document.querySelector("#start");
         const endElement = document.querySelector("#end");
         const startRect = startElement.getBoundingClientRect();
         const endRect = endElement.getBoundingClientRect();
 
-        this.startX = startRect.right;
-        this.startY = startRect.top + 100;
+        this.startX = startRect.right - 25;
+        this.startY = startRect.top;
 
         this.endX = endRect.left;
-        this.endY = endRect.top + 100;
+        this.endY = endRect.top + 25;
       });
     }
-    else if (this.globalCounter == 3) {
+    if (this.globalCounter == 3) {
       setTimeout(() => {
+        this.globalA3 = true;
         const startElement1 = document.querySelector("#end");
         const endElement1 = document.querySelector("#end1");
         const startRect1 = startElement1.getBoundingClientRect();
         const endRect1 = endElement1.getBoundingClientRect();
 
-        this.startX1 = startRect1.right;
-        this.startY1 = startRect1.top + 100;
+        this.startX1 = startRect1.right - 25;
+        this.startY1 = startRect1.top;
 
         this.endX1 = endRect1.left;
-        this.endY1 = endRect1.top + 100;
+        this.endY1 = endRect1.top + 25;
       })
     }
-    else if (this.globalCounter == 4) {
+    if (this.globalCounter == 4) {
       setTimeout(() => {
+        this.globalA4 = true;
         const startElement2 = document.querySelector("#end1");
         const endElement2 = document.querySelector("#end2");
         const startRect2 = startElement2.getBoundingClientRect();
         const endRect2 = endElement2.getBoundingClientRect();
 
-        this.startX2 = startRect2.right;
-        this.startY2 = startRect2.top + 100;
+        this.startX2 = startRect2.right - 25;
+        this.startY2 = startRect2.top;
 
         this.endX2 = endRect2.left;
-        this.endY2 = endRect2.top + 100;
+        this.endY2 = endRect2.top + 25;
       });
     }
-    else if (this.globalCounter == 5) {
+    if (this.globalCounter == 5) {
       setTimeout(() => {
+        this.globalA5 = true;
         const startElement3 = document.querySelector("#end2");
         const endElement3 = document.querySelector("#end3");
         const startRect3 = startElement3.getBoundingClientRect();
         const endRect3 = endElement3.getBoundingClientRect();
 
-        this.startX3 = startRect3.right;
-        this.startY3 = startRect3.top + 100;
+        this.startX3 = startRect3.right - 25;
+        this.startY3 = startRect3.top;
 
         this.endX3 = endRect3.left;
-        this.endY3 = endRect3.top + 100;
+        this.endY3 = endRect3.top + 25;
       });
-
     }
   }
   ngOnInit(): void { }
@@ -440,7 +447,65 @@ export class DragdropComponent implements OnInit {
       this.x = el.getBoundingClientRect(this.native).right;
       console.log(this.x);
     }
+    if (this.globalA2 == true) {
+      setTimeout(() => {
 
+        const startElement = document.querySelector("#start");
+        const endElement = document.querySelector("#end");
+        const startRect = startElement.getBoundingClientRect();
+        const endRect = endElement.getBoundingClientRect();
+
+        this.startX = startRect.right - 25;
+        this.startY = startRect.top;
+
+        this.endX = endRect.left;
+        this.endY = endRect.top + 25;
+      });
+    }
+    if (this.globalA3 == true) {
+      setTimeout(() => {
+        this.globalA3 = true
+        const startElement1 = document.querySelector("#end");
+        const endElement1 = document.querySelector("#end1");
+        const startRect1 = startElement1.getBoundingClientRect();
+        const endRect1 = endElement1.getBoundingClientRect();
+
+        this.startX1 = startRect1.right - 25;
+        this.startY1 = startRect1.top;
+
+        this.endX1 = endRect1.left;
+        this.endY1 = endRect1.top + 25;
+      })
+    }
+    if (this.globalA4 == true) {
+      setTimeout(() => {
+        const startElement2 = document.querySelector("#end1");
+        const endElement2 = document.querySelector("#end2");
+        const startRect2 = startElement2.getBoundingClientRect();
+        const endRect2 = endElement2.getBoundingClientRect();
+
+        this.startX2 = startRect2.right - 25;
+        this.startY2 = startRect2.top;
+
+        this.endX2 = endRect2.left;
+        this.endY2 = endRect2.top + 25;
+      });
+    }
+    if (this.globalA5 == true) {
+      setTimeout(() => {
+        const startElement3 = document.querySelector("#end2");
+        const endElement3 = document.querySelector("#end3");
+        const startRect3 = startElement3.getBoundingClientRect();
+        const endRect3 = endElement3.getBoundingClientRect();
+
+        this.startX3 = startRect3.right - 25;
+        this.startY3 = startRect3.top;
+
+        this.endX3 = endRect3.left;
+        this.endY3 = endRect3.top + 25;
+      });
+
+    }
   }
 }
 //   printData() {
