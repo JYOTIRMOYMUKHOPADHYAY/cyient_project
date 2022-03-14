@@ -137,14 +137,12 @@ export class DragdropComponent implements OnInit {
   @ViewChild('native1') native1: ElementRef;
 
   changePosition() {
-    console.log("called")
     this.nodes2.forEach((item) => {
       console.log(item.dragPosition)
     })
   }
 
   drop1(event, index) {
-
     if (event.dropPoint.x < this.x && event.distance.x < 0) {
       const tog = this.nodes1.includes(index);
       if (!tog) {
@@ -152,21 +150,26 @@ export class DragdropComponent implements OnInit {
         const CI = this.nodes2.findIndex(item => item === index)
         this.flag = this.flag - 1;
         this.nodes2.splice(CI, 1);
-        this.globalCounter = this.globalCounter - 1;
+
         if (index == this.a1) {
           this.a1 = null;
+          this.globalCounter = this.globalCounter - 1;
         }
         else if (index == this.a2) {
           this.a2 = null;
+          this.globalCounter = this.globalCounter - 1;
         }
         else if (index == this.a3) {
           this.a3 = null;
+          this.globalCounter = this.globalCounter - 1;
         }
         else if (index == this.a4) {
           this.a4 = null;
+          this.globalCounter = this.globalCounter - 1;
         }
         else if (index == this.a5) {
           this.a5 = null;
+          this.globalCounter = this.globalCounter - 1;
         }
       }
     }
@@ -282,6 +285,8 @@ export class DragdropComponent implements OnInit {
     }
 
   }
+
+  // Array Sorting Function
   Sort() {
     const toArray = Object.values(this.nodes2);
     const sortedByX = [...toArray].sort((a, b) => a.dragPosition.x - b.dragPosition.x)
@@ -289,6 +294,8 @@ export class DragdropComponent implements OnInit {
   ref() {
     location.reload();
   }
+
+  /* Process Functions Start 1 - 2 - 3 -4 */
   start() {
     if (this.a1 != null) {
       this.a1.isRunning = false;
@@ -320,7 +327,6 @@ export class DragdropComponent implements OnInit {
     }
   }
   start1() {
-    console.log("start1")
     if (this.a2 != null) {
       this.a2.isRunning = true;
       setTimeout(() => {
@@ -358,8 +364,8 @@ export class DragdropComponent implements OnInit {
         this.a5.isCompleted = true;
       }, 3000);
     }
-
   }
+
   // start(currentObject) {
   //   console.log("im called")
   //   this.onNext = false;
@@ -377,9 +383,9 @@ export class DragdropComponent implements OnInit {
   //   }, 3000);
   // }
 
+  /* ----- A function to draw arraw by arrow button ----- */
   call() {
-    console.log("call")
-    if (this.globalCounter == 2) {
+    if (this.globalCounter >= 2) {
       setTimeout(() => {
         this.globalA2 = true;
         const startElement = document.querySelector("#start");
@@ -394,7 +400,7 @@ export class DragdropComponent implements OnInit {
         this.endY = endRect.top + 25;
       });
     }
-    if (this.globalCounter == 3) {
+    if (this.globalCounter >= 3) {
       setTimeout(() => {
         this.globalA3 = true;
         const startElement1 = document.querySelector("#end");
@@ -409,7 +415,7 @@ export class DragdropComponent implements OnInit {
         this.endY1 = endRect1.top + 25;
       })
     }
-    if (this.globalCounter == 4) {
+    if (this.globalCounter >= 4) {
       setTimeout(() => {
         this.globalA4 = true;
         const startElement2 = document.querySelector("#end1");
@@ -424,7 +430,7 @@ export class DragdropComponent implements OnInit {
         this.endY2 = endRect2.top + 25;
       });
     }
-    if (this.globalCounter == 5) {
+    if (this.globalCounter >= 5) {
       setTimeout(() => {
         this.globalA5 = true;
         const startElement3 = document.querySelector("#end2");
@@ -445,11 +451,9 @@ export class DragdropComponent implements OnInit {
     if (this.native !== undefined) {
       const el = this.native.nativeElement;
       this.x = el.getBoundingClientRect(this.native).right;
-      console.log(this.x);
     }
     if (this.globalA2 == true) {
       setTimeout(() => {
-
         const startElement = document.querySelector("#start");
         const endElement = document.querySelector("#end");
         const startRect = startElement.getBoundingClientRect();
@@ -504,7 +508,6 @@ export class DragdropComponent implements OnInit {
         this.endX3 = endRect3.left;
         this.endY3 = endRect3.top + 25;
       });
-
     }
   }
 }
