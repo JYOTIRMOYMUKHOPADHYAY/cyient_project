@@ -63,7 +63,7 @@ this.httpClient.post("http://45.35.14.184:5000/update_db", formData).subscribe(r
   }
   submitCLusturing(){
     this.clusteringFormShow = false
-    this.nodeBoundaryShow = false
+    this.nodeBoundaryShow = true
     this.clusterCorrectionShow = true
 
     const formData = new FormData();
@@ -71,12 +71,10 @@ this.httpClient.post("http://45.35.14.184:5000/update_db", formData).subscribe(r
       formData.append("file",  element)
     })
 
-    this.httpClient.post("http://45.35.14.184:5000/", formData).subscribe(res =>  {
+    this.httpClient.post("http://45.35.14.184:5000/aerial_page", formData).subscribe(res =>  {
       console.log(res);
       this.dataShare.changeData(res)
 
-
-      // alert('Files uploaded Successfully!');
   })
 
 

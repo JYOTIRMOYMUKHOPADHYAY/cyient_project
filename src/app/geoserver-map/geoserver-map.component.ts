@@ -11,28 +11,33 @@ import { GisfileuploadfireService } from '../gisfileuploadfire.service';
 })
 export class GeoserverMapComponent implements OnInit {
   map: any;
-  dataJSON:any
+  dataJSON: any;
   layerArry = ['SAMPLE_DATA_TWO_234:sample_flask'];
   loadingData = false;
   constructor(private dataShare: GisfileuploadfireService) {
     this.dataShare.data$.subscribe((res) => {
       console.log(res);
       if (res) {
-        console.log(res['workspace'] + ':' + res['pg_table']);
-        this.x(res['workspace'] + ':' + res['pg_table']);
-        this.x("SAMPLE_DATA_TWO_2345:ar_cluster")
+        res['table_name'].forEach((element) => {
+          this.x(res['workspace_name'] + ':' + 'sample_flask_' + element);
+          console.log(res['workspace_name'] + ':' + 'sample_flask_' + element);
+        });
+
+        // this.x(res['workspace_name'] + ':' + res['table_name']);
+        // this.x("dem0456:sample_flask_outlier_output")
       }
     });
   }
 
   ngOnInit(): void {
     this.addmaptoInterface();
+    // this.x("SAMPLE_PATH_001:sample_flask_outlier_output")
   }
 
   x(data) {
     // this.layerArry.forEach((data) => {
     // this.ngOnInit()
-    console.log(data)
+    console.log(data);
     this.loadingData = true;
     this.wmsLayes(data);
     // });
@@ -46,8 +51,7 @@ export class GeoserverMapComponent implements OnInit {
     }).fitBounds([
       [53.21997825788432, -0.5452508263805933],
       [53.22305537611916, -0.538037276509812],
-    ])
-
+    ]);
 
     var osm = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -57,26 +61,31 @@ export class GeoserverMapComponent implements OnInit {
       }
     );
     osm.addTo(this.map);
-    console.log(this.map.options.crs.project)
-    console.log(this.map.getBounds())
-    L.popup().setLatLng([53.22727138243429, -0.5452508263805933]).setContent("HEllo").openOn(this.map)
+    console.log(this.map.options.crs.project);
+    console.log(this.map.getBounds());
+    L.popup()
+      .setLatLng([53.22727138243429, -0.5452508263805933])
+      .setContent('HEllo')
+      .openOn(this.map);
   }
 
   wmsLayes(layer) {
     var wms = L.Geoserver.wms('http://45.35.14.184:8080/geoserver/wms', {
       layers: layer,
-    })
+    });
     wms.addTo(this.map);
+    console.log(wms.GetFeatureInfo());
     // L.popup().setLatLng([54.22727138243429, -0.5452508263805933]).setContent("HEllo").openOn(this.map)
     // console.log(wms)
-// L.geoJSON(this.dataJSON,{
-//   onEachFeature: function(x,y){
-//     console.log(x)
-//     console.log(y)
-//   }
-// })
+    // L.geoJSON(this.dataJSON,{
+    //   onEachFeature: function(x,y){
+    //     console.log(x)
+    //     console.log(y)
+    //   }
+    // })
   }
 
+  // FOR REFERENCE=======================
   // someFUnction(){
   //   var sw = map.options.crs.project(this.map.getBounds().getSouthWest());
   //               var ne = this.map.options.crs.project(this.map.getBounds().getNorthEast());
